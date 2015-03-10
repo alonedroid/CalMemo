@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import alonedroid.com.calmemo.realm.CmPhoto;
-import alonedroid.com.calmemo.scene.CmCalendarActivity;
+import alonedroid.com.calmemo.scene.calendar.CmCalendarActivity;
 import io.realm.Realm;
 
 
@@ -23,30 +23,6 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            startActivity(new Intent(this, CmCalendarActivity.class));
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public void test(View view) {
@@ -75,5 +51,9 @@ public class MainActivity extends ActionBarActivity {
         realm.commitTransaction();
 
         bitmap.recycle();
+    }
+
+    public void move(View view) {
+        startActivity(new Intent(this, CmCalendarActivity.class));
     }
 }

@@ -1,11 +1,11 @@
-package alonedroid.com.calmemo.scene;
+package alonedroid.com.calmemo.scene.calendar;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.Calendar;
 
@@ -25,42 +26,22 @@ import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
 public class CmCalendarFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_DISPLAY_DATE = "arg_display_date";
+    private String mDisplayDate;
 
-
-    private String[][] mMonth = new String[5][7];
+    private String[][] mMonth = new String[6][7];
     private int mDisplayWidth;
     private int mDisplayHeight;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private OnFragmentInteractionListener mListener;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment McCalendarFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CmCalendarFragment newInstance(String param1, String param2) {
-        CmCalendarFragment fragment = new CmCalendarFragment();
+    public static CmCalendarFragment newInstance(String display_date) {
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_DISPLAY_DATE, display_date);
+
+        CmCalendarFragment fragment = new CmCalendarFragment();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public CmCalendarFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -75,19 +56,24 @@ public class CmCalendarFragment extends Fragment {
         this.mDisplayWidth = size.x;
         this.mDisplayHeight = size.y;
 
+        // 曜日を配列に格納
+        String[] week_str = new String[]{"月", "火", "水", "木", "金", "土", "日"};
+        for (int i = 0; i < week_str.length; i++) {
+            this.mMonth[0][i] = week_str[i];
+        }
+
         // 日付を配列に格納
         final Calendar cal = Calendar.getInstance();
         cal.set(Calendar.DATE, 1);
         for (int i = 0; i < 31; i++) {
-            int week_no = cal.get(Calendar.WEEK_OF_MONTH) - 1;
+            int week_no = cal.get(Calendar.WEEK_OF_MONTH);
             int date_no = cal.get(Calendar.DAY_OF_WEEK) - 1;
             this.mMonth[week_no][date_no] = String.valueOf(cal.get(Calendar.DATE));
             cal.add(Calendar.DATE, 1);
         }
 
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mDisplayDate = getArguments().getString(ARG_DISPLAY_DATE);
         }
     }
 
@@ -95,11 +81,12 @@ public class CmCalendarFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.fragment_mc_calendar, container, false);
+        ((TextView) ll.findViewById(R.id.cm_calendar_ym)).setText(this.mDisplayDate);
 
         final int week_num = 7;
         final int row_max = 6;
         final int right_margin = 1;
-        for (int i = 1; i < row_max; i++) {
+        for (int i = 0; i < row_max; i++) {
             LinearLayout ll_week = (LinearLayout) ll.findViewById(getResources().getIdentifier("cm_calendar_" + i, "id", getActivity().getPackageName()));
 
             int left_width = this.mDisplayWidth;
@@ -107,8 +94,8 @@ public class CmCalendarFragment extends Fragment {
                 int width = left_width / (week_num - j);
                 left_width -= width;
                 CmDateView cv = new CmDateView(getActivity());
-                cv.setDate(this.mMonth[i - 1][j]);
-                cv.setDateImage(getPhoto("201503"+String.format("%2s", this.mMonth[i - 1][j]).replace(" ", "0")));
+                cv.setDate(this.mMonth[i][j]);
+                cv.setDateImage(getPhoto("201503" + String.format("%2s", this.mMonth[i][j]).replace(" ", "0")));
                 cv.setLayoutParams(new LinearLayout.LayoutParams(width, FrameLayout.LayoutParams.MATCH_PARENT));
                 if (j + 1 < week_num) {
                     cv.setPadding(0, 0, right_margin, 0);
@@ -177,7 +164,7 @@ public class CmCalendarFragment extends Fragment {
 //        RealmResults<CmPhoto> sortedDescending =
 //                result.sort("age", RealmResults.SORT_ORDER_DECENDING);
 
-        if(1<=result.size()){
+        if (1 <= result.size()) {
             return CmUtility.decodeBitmapString(result.get(0).getPhoto());
         } else {
             return null;

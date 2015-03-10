@@ -5,8 +5,34 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/cm_text_color"
-    tools:context="alonedroid.com.calmemo.scene.CmCalendarFragment"
+    tools:context="alonedroid.com.calmemo.scene.calendar.CmCalendarFragment"
     >
+    <LinearLayout
+        android:id="@+id/cm_calendar_title"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingLeft="0.5dp"
+        android:paddingRight="0.5dp"
+        android:orientation="vertical"
+        android:background="@color/white"
+        >
+        <TextView
+            android:id="@+id/cm_calendar_ym"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center|center"
+            android:layout_weight="1"
+            />
+        <LinearLayout
+            android:id="@+id/cm_calendar_0"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:background="@color/white"
+            />
+        </LinearLayout>
     <LinearLayout
         android:id="@+id/cm_calendar_1"
         android:layout_width="match_parent"

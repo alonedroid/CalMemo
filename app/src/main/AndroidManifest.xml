@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".scene.CmCalendarActivity"
+            android:name=".scene.calendar.CmCalendarActivity"
             android:label="@string/title_activity_cm_calendar" >
         </activity>
     </application>
