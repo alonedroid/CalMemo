@@ -1,0 +1,17 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="CmText">
+        <item name="android:textColor">@color/cm_text_color</item>
+    </style>
+
+    <declare-styleable name="CmDateView">
+        <attr name="card_main_image" format="reference"/>
+        <attr name="card_title" format="string"/>
+        <attr name="card_sub_title" format="string"/>
+    </declare-styleable>
+</resources>

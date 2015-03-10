@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="cm_text_color">#a59e99</color>
+    <color name="pink_1">#F8BBD0</color>
+    <color name="pink_4">#EC407A</color>
+    <color name="green_4">#66BB6A</color>
+    <color name="blue_1">#BBDEFB</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_filter">#66FFFFFF</color>
+
+</resources>
