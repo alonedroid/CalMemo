@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="cm_text_color">#a59e99</color>
+    <color name="cm_text_color">#A59E99</color>
+    <color name="cm_text_sunday_color">#FF9e9e</color>
+    <color name="cm_text_saturday_color">#94c0ff</color>
     <color name="pink_1">#F8BBD0</color>
     <color name="pink_4">#EC407A</color>
     <color name="green_4">#66BB6A</color>

@@ -2,21 +2,23 @@ package alonedroid.com.calmemo.scene.calendar;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.Calendar;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.res.StringRes;
 
+import java.util.Calendar;
+import java.util.Date;
+
+import alonedroid.com.calmemo.CmApplication;
 import alonedroid.com.calmemo.CmUtility;
 import alonedroid.com.calmemo.R;
 import alonedroid.com.calmemo.realm.CmPhoto;
@@ -25,13 +27,15 @@ import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
+@EFragment
 public class CmCalendarFragment extends Fragment {
-    private static final String ARG_DISPLAY_DATE = "arg_display_date";
+
+    @StringRes(R.string.arg_display_date)
+    static String ARG_DISPLAY_DATE;
+
     private String mDisplayDate;
 
     private String[][] mMonth = new String[6][7];
-    private int mDisplayWidth;
-    private int mDisplayHeight;
 
     private OnFragmentInteractionListener mListener;
 
@@ -48,22 +52,15 @@ public class CmCalendarFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // 画面サイズ取得
-        WindowManager wm = (WindowManager) getActivity().getSystemService(Activity.WINDOW_SERVICE);
-        Display disp = wm.getDefaultDisplay();
-        Point size = new Point();
-        disp.getSize(size);
-        this.mDisplayWidth = size.x;
-        this.mDisplayHeight = size.y;
-
         // 曜日を配列に格納
-        String[] week_str = new String[]{"月", "火", "水", "木", "金", "土", "日"};
+        String[] week_str = getResources().getStringArray(R.array.date_strings);
         for (int i = 0; i < week_str.length; i++) {
             this.mMonth[0][i] = week_str[i];
         }
 
         // 日付を配列に格納
         final Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
         cal.set(Calendar.DATE, 1);
         for (int i = 0; i < 31; i++) {
             int week_no = cal.get(Calendar.WEEK_OF_MONTH);
@@ -89,12 +86,13 @@ public class CmCalendarFragment extends Fragment {
         for (int i = 0; i < row_max; i++) {
             LinearLayout ll_week = (LinearLayout) ll.findViewById(getResources().getIdentifier("cm_calendar_" + i, "id", getActivity().getPackageName()));
 
-            int left_width = this.mDisplayWidth;
+            int left_width = CmApplication.mDisplayWidth;
             for (int j = 0; j < week_num; j++) {
                 int width = left_width / (week_num - j);
                 left_width -= width;
                 CmDateView cv = new CmDateView(getActivity());
                 cv.setDate(this.mMonth[i][j]);
+                cv.setDateColor(j % 7);
                 cv.setDateImage(getPhoto("201503" + String.format("%2s", this.mMonth[i][j]).replace(" ", "0")));
                 cv.setLayoutParams(new LinearLayout.LayoutParams(width, FrameLayout.LayoutParams.MATCH_PARENT));
                 if (j + 1 < week_num) {

@@ -1,6 +1,7 @@
 package alonedroid.com.calmemo.view;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.text.TextUtils;
@@ -42,6 +43,11 @@ public class CmDateView extends FrameLayout {
         } else {
             mDateText.setText(date);
         }
+    }
+
+    public void setDateColor(int col_position){
+        TypedArray color_array = getResources().obtainTypedArray(R.array.date_colors);
+        mDateText.setTextColor(color_array.getColor(col_position, 1));
     }
 
     public void setDateImage(Bitmap image) {
