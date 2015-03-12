@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import java.util.Calendar;
 
 import alonedroid.com.calmemo.R;
+import hugo.weaving.DebugLog;
 
 public class CmCalendarActivity extends ActionBarActivity {
     @Override

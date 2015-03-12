@@ -27,8 +27,9 @@ public class CmCalendarAdapter extends FragmentStatePagerAdapter {
         // 中央位置からの差分で対象の年月を計算する
         this.mCalendar.setTime(new Date());
         this.mCalendar.add(Calendar.MONTH, position - this.mFlatPosition);
-        String display_date = new SimpleDateFormat("yyyyMM").format(this.mCalendar.getTime());
-        CmCalendarFragment fragment = CmCalendarFragment.newInstance(display_date);
+        String display_year = new SimpleDateFormat("yyyy").format(this.mCalendar.getTime());
+        String display_month = new SimpleDateFormat("MM").format(this.mCalendar.getTime());
+        CmCalendarFragment fragment = CmCalendarFragment_.newInstance(display_year, display_month);
         return fragment;
     }
 

@@ -45,9 +45,8 @@ public class CmDateView extends FrameLayout {
         }
     }
 
-    public void setDateColor(int col_position){
-        TypedArray color_array = getResources().obtainTypedArray(R.array.date_colors);
-        mDateText.setTextColor(color_array.getColor(col_position, 1));
+    public void setDateColor(int color){
+        mDateText.setTextColor(color);
     }
 
     public void setDateImage(Bitmap image) {

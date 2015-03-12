@@ -1,56 +1,75 @@
 package alonedroid.com.calmemo.scene.calendar;
 
-import android.app.Activity;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.androidannotations.annotations.AfterInject;
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.res.StringRes;
+import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.res.IntegerRes;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import alonedroid.com.calmemo.CmApplication;
 import alonedroid.com.calmemo.CmUtility;
 import alonedroid.com.calmemo.R;
 import alonedroid.com.calmemo.realm.CmPhoto;
 import alonedroid.com.calmemo.view.CmDateView;
+import hugo.weaving.DebugLog;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
-@EFragment
+@EFragment(R.layout.fragment_mc_calendar)
 public class CmCalendarFragment extends Fragment {
 
-    @StringRes(R.string.arg_display_date)
-    static String ARG_DISPLAY_DATE;
+    private static final String ARG_DISPLAY_YEAR = "argDisplayYear";
 
-    private String mDisplayDate;
+    private static final String ARG_DISPLAY_MONTH = "argDisplayMonth";
 
-    private String[][] mMonth = new String[6][7];
+    @IntegerRes
+    int displayWeeksNum;
 
-    private OnFragmentInteractionListener mListener;
+    @IntegerRes
+    int displayDatesNum;
 
-    public static CmCalendarFragment newInstance(String display_date) {
+    @ViewById
+    LinearLayout cmCalendarRoot;
+
+    @ViewById
+    TextView cmCalendarYm;
+
+    @FragmentArg
+    String argDisplayYear;
+
+    @FragmentArg
+    String argDisplayMonth;
+
+    private String[][] mMonth;
+
+    @DebugLog
+    public static CmCalendarFragment newInstance(String display_year, String display_month) {
         Bundle args = new Bundle();
-        args.putString(ARG_DISPLAY_DATE, display_date);
+        args.putString(ARG_DISPLAY_YEAR, display_year);
+        args.putString(ARG_DISPLAY_MONTH, display_month);
 
-        CmCalendarFragment fragment = new CmCalendarFragment();
+        CmCalendarFragment fragment = new CmCalendarFragment_();
         fragment.setArguments(args);
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    @DebugLog
+    @AfterInject
+    void onAfterInject() {
+        mMonth = new String[this.displayWeeksNum][this.displayDatesNum];
 
         // 曜日を配列に格納
         String[] week_str = getResources().getStringArray(R.array.date_strings);
@@ -60,73 +79,42 @@ public class CmCalendarFragment extends Fragment {
 
         // 日付を配列に格納
         final Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date());
-        cal.set(Calendar.DATE, 1);
+
+        cal.set(Integer.parseInt(this.argDisplayYear), Integer.parseInt(this.argDisplayMonth) - 1, 1);
         for (int i = 0; i < 31; i++) {
             int week_no = cal.get(Calendar.WEEK_OF_MONTH);
             int date_no = cal.get(Calendar.DAY_OF_WEEK) - 1;
             this.mMonth[week_no][date_no] = String.valueOf(cal.get(Calendar.DATE));
             cal.add(Calendar.DATE, 1);
         }
-
-        if (getArguments() != null) {
-            mDisplayDate = getArguments().getString(ARG_DISPLAY_DATE);
-        }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.fragment_mc_calendar, container, false);
-        ((TextView) ll.findViewById(R.id.cm_calendar_ym)).setText(this.mDisplayDate);
+    @DebugLog
+    @AfterViews
+    void onAfterViews() {
+        this.cmCalendarYm.setText(this.argDisplayYear + " / " + this.argDisplayMonth);
 
-        final int week_num = 7;
-        final int row_max = 6;
+        TypedArray color_array = getResources().obtainTypedArray(R.array.date_colors);
+
         final int right_margin = 1;
-        for (int i = 0; i < row_max; i++) {
-            LinearLayout ll_week = (LinearLayout) ll.findViewById(getResources().getIdentifier("cm_calendar_" + i, "id", getActivity().getPackageName()));
+        for (int i = 0; i < this.displayDatesNum; i++) {
+            LinearLayout ll_week = (LinearLayout) this.cmCalendarRoot.findViewById(getResources().getIdentifier("cm_calendar_" + i, "id", getActivity().getPackageName()));
 
             int left_width = CmApplication.mDisplayWidth;
-            for (int j = 0; j < week_num; j++) {
-                int width = left_width / (week_num - j);
+            for (int j = 0; j < this.displayWeeksNum; j++) {
+                int width = left_width / (this.displayWeeksNum - j);
                 left_width -= width;
                 CmDateView cv = new CmDateView(getActivity());
                 cv.setDate(this.mMonth[i][j]);
-                cv.setDateColor(j % 7);
-                cv.setDateImage(getPhoto("201503" + String.format("%2s", this.mMonth[i][j]).replace(" ", "0")));
+                cv.setDateColor(color_array.getColor(j % 7, 1));
+                cv.setDateImage(getPhoto(this.argDisplayYear + this.argDisplayMonth + String.format("%2s", this.mMonth[i][j]).replace(" ", "0")));
                 cv.setLayoutParams(new LinearLayout.LayoutParams(width, FrameLayout.LayoutParams.MATCH_PARENT));
-                if (j + 1 < week_num) {
+                if (j + 1 < this.displayWeeksNum) {
                     cv.setPadding(0, 0, right_margin, 0);
                 }
                 ll_week.addView(cv);
             }
         }
-
-        return ll;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-//            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
     }
 
     /**

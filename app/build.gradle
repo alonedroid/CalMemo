@@ -4,10 +4,12 @@ buildscript {
     }
     dependencies {
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4+'
+        classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
     }
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'com.jakewharton.hugo'
 apply plugin: 'android-apt'
 
 android {
@@ -29,9 +31,17 @@ android {
     }
 }
 
+apt {
+    arguments {
+        androidManifestFile variant.outputs[0].processResources.manifestFile
+        resourcePackageName "alonedroid.com.calmemo"
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'io.realm:realm-android:0.71.+'
     compile 'com.android.support:appcompat-v7:21.0.3'
+    apt "org.androidannotations:androidannotations:3.2+"
     compile 'org.androidannotations:androidannotations-api:3.2+'
 }
