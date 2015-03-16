@@ -136,11 +136,11 @@ public class CmCalendarFragment extends Fragment {
         Realm realm = Realm.getInstance(getActivity(), getString(R.string.realm_instance));
 
         RealmQuery<CmPhoto> query = realm.where(CmPhoto.class);
-        query.equalTo(CmPhoto.DATE, date);
+        query.equalTo(CmPhoto.CM_DATE, date);
         RealmResults<CmPhoto> resultAll = query.findAll();
         RealmResults<CmPhoto> result =
                 realm.where(CmPhoto.class)
-                        .equalTo(CmPhoto.DATE, date)
+                        .equalTo(CmPhoto.CM_DATE, date)
 //                        .or()
 //                        .equalTo("name", "Chip")
                         .findAll();
@@ -151,7 +151,7 @@ public class CmCalendarFragment extends Fragment {
 //                result.sort("age", RealmResults.SORT_ORDER_DECENDING);
 
         if (1 <= result.size()) {
-            return CmUtility.decodeBitmapString(result.get(0).getPhoto());
+            return CmUtility.decodeBitmapString(result.get(0).getCm_photo());
         } else {
             return null;
         }
