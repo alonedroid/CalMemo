@@ -102,12 +102,12 @@ public class MainActivity extends ActionBarActivity {
 
 //        RealmResults<CmPhoto> sortedAscending  = result.sort("age");
 //
-        RealmResults<CmPhoto> sortedDescending =
-                result.sort(CmPhoto.CM_DATE, RealmResults.SORT_ORDER_DECENDING)
-                .sort(CmPhoto.CM_TIME, RealmResults.SORT_ORDER_DECENDING);
+//        RealmResults<CmPhoto> sortedDescending =
+//                result.sort(CmPhoto.CM_DATE, RealmResults.SORT_ORDER_DECENDING)
+//                .sort(CmPhoto.CM_TIME, RealmResults.SORT_ORDER_DECENDING);
 
 
-        return result.get(0).getCm_action();
+        return result.get(0).getCm_date();
 
     }
 }
