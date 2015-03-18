@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ import java.util.Date;
 
 import alonedroid.com.calmemo.realm.CmPhoto;
 import alonedroid.com.calmemo.scene.calendar.CmCalendarActivity;
+import hugo.weaving.DebugLog;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -43,7 +45,7 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-
+    @DebugLog
     public void savePhoto(Bitmap bitmap) {
         Realm realm = Realm.getInstance(this, getString(R.string.realm_instance));
         realm.beginTransaction();
@@ -74,7 +76,7 @@ public class MainActivity extends ActionBarActivity {
         photo.setCm_date_time(new Date());
         photo.setCm_date(new SimpleDateFormat("yyyyMMdd").format(new Date()));
         photo.setCm_time(new SimpleDateFormat("HHmmss").format(new Date()));
-        photo.setCm_photo(cm_action);
+        photo.setCm_photo("");
         photo.setCm_action(cm_action);
         realm.commitTransaction();
 

@@ -22,6 +22,26 @@
             android:name=".scene.calendar.CmCalendarActivity"
             android:label="@string/title_activity_cm_calendar" >
         </activity>
+        <receiver android:name=".widget.CmWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/cm_widget_provider" />
+        </receiver>
+        <receiver
+            android:name=".widget.CmWidgetIntentReceiver"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="UPDATE_WIDGET" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/cm_widget_provider" />
+        </receiver>
     </application>
 
 </manifest>

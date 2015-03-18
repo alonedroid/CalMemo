@@ -141,6 +141,7 @@ public class CmCalendarFragment extends Fragment {
         RealmResults<CmPhoto> result =
                 realm.where(CmPhoto.class)
                         .equalTo(CmPhoto.CM_DATE, date)
+                        .notEqualTo(CmPhoto.CM_PHOTO, "")
 //                        .or()
 //                        .equalTo("name", "Chip")
                         .findAll();
