@@ -71,11 +71,14 @@ public class MainActivity extends ActionBarActivity {
         realm.beginTransaction();
 
         CmPhoto photo = realm.createObject(CmPhoto.class);
+        photo.setCm_date_time(new Date());
         photo.setCm_date(new SimpleDateFormat("yyyyMMdd").format(new Date()));
         photo.setCm_time(new SimpleDateFormat("HHmmss").format(new Date()));
         photo.setCm_photo(cm_action);
         photo.setCm_action(cm_action);
         realm.commitTransaction();
+
+        Toast.makeText(this, "save", Toast.LENGTH_LONG).show();
     }
 
     @Click
@@ -102,12 +105,11 @@ public class MainActivity extends ActionBarActivity {
 
 //        RealmResults<CmPhoto> sortedAscending  = result.sort("age");
 //
-//        RealmResults<CmPhoto> sortedDescending =
-//                result.sort(CmPhoto.CM_DATE, RealmResults.SORT_ORDER_DECENDING)
-//                .sort(CmPhoto.CM_TIME, RealmResults.SORT_ORDER_DECENDING);
+        RealmResults<CmPhoto> sortedDescending =
+                result.sort(CmPhoto.CM_DATE_TIME, RealmResults.SORT_ORDER_DECENDING);
 
 
-        return result.get(0).getCm_date();
+        return sortedDescending.get(0).getCm_date();
 
     }
 }

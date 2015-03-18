@@ -1,10 +1,14 @@
 package alonedroid.com.calmemo.realm;
 
 
+import java.util.Date;
+
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 
 public class CmPhoto extends RealmObject {
+    @Ignore
+    public static final String CM_DATE_TIME = "cm_date_time";
     @Ignore
     public static final String CM_DATE = "cm_date";
     @Ignore
@@ -14,10 +18,19 @@ public class CmPhoto extends RealmObject {
     @Ignore
     public static final String CM_ACTION = "cm_action";
 
+    private Date cm_date_time;
     private String cm_date;
     private String cm_time;
     private String cm_photo;
     private String cm_action;
+
+    public Date getCm_date_time() {
+        return cm_date_time;
+    }
+
+    public void setCm_date_time(Date cm_date_time) {
+        this.cm_date_time = cm_date_time;
+    }
 
     public String getCm_date() {
         return cm_date;
