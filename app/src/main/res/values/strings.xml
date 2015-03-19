@@ -20,4 +20,9 @@
     <string name="saturday">土</string>
     <!-- Realm -->
     <string name="realm_instance">CalMemo.realm</string>
+    <!-- Widget -->
+    <!-- マニフェストのfilter nameも変更すること -->
+    <string name="cm_widget_receive_action">android.intent.action.ACTION_WIDGET_CM_CAMERA</string>
+    <string name="title_activity_cm_camera">CmCameraActivity</string>
+
 </resources>

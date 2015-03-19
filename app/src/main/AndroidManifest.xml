@@ -7,21 +7,20 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        >
-        <activity
-            android:name=".MainActivity_"
-            android:label="@string/app_name" >
+        android:theme="@style/AppTheme">
+
+        <activity android:name=".MainActivity_" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".scene.calendar.CmCalendarActivity" />
         <activity
-            android:name=".scene.calendar.CmCalendarActivity"
-            android:label="@string/title_activity_cm_calendar" >
-        </activity>
+            android:name=".activity.CmCameraActivity"
+            android:theme="@style/AppTheme.Translucent" />
+
         <receiver android:name=".widget.CmWidgetProvider" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -31,11 +30,9 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/cm_widget_provider" />
         </receiver>
-        <receiver
-            android:name=".widget.CmWidgetIntentReceiver"
-            android:label="@string/app_name" >
+        <receiver android:name=".widget.CmWidgetIntentReceiver" >
             <intent-filter>
-                <action android:name="UPDATE_WIDGET" />
+                <action android:name="android.intent.action.ACTION_WIDGET_CM_CAMERA" />
             </intent-filter>
 
             <meta-data
@@ -43,5 +40,4 @@
                 android:resource="@xml/cm_widget_provider" />
         </receiver>
     </application>
-
 </manifest>

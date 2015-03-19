@@ -16,6 +16,7 @@ import org.androidannotations.annotations.ViewById;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import alonedroid.com.calmemo.activity.CmCameraActivity;
 import alonedroid.com.calmemo.realm.CmPhoto;
 import alonedroid.com.calmemo.scene.calendar.CmCalendarActivity;
 import hugo.weaving.DebugLog;
@@ -31,33 +32,7 @@ public class MainActivity extends ActionBarActivity {
 
     @Click
     public void take_a_picture(View view) {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, 100);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data != null) {
-            Bitmap b = (Bitmap) data.getExtras().get("data");
-            savePhoto(b);
-
-            b.recycle();
-        }
-    }
-
-    @DebugLog
-    public void savePhoto(Bitmap bitmap) {
-        Realm realm = Realm.getInstance(this, getString(R.string.realm_instance));
-        realm.beginTransaction();
-
-        CmPhoto photo = realm.createObject(CmPhoto.class);
-        photo.setCm_date(new SimpleDateFormat("yyyyMMdd").format(new Date()));
-        photo.setCm_time(new SimpleDateFormat("HHmmss").format(new Date()));
-        photo.setCm_photo(CmUtility.decodeBitmap(bitmap));
-        photo.setCm_action("");
-        realm.commitTransaction();
-
-        bitmap.recycle();
+        startActivity(new Intent(this, CmCameraActivity.class));
     }
 
     @Click
