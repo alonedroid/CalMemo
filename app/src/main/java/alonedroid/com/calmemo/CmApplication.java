@@ -2,11 +2,13 @@ package alonedroid.com.calmemo;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.graphics.Point;
 import android.view.Display;
 import android.view.WindowManager;
 
 public class CmApplication extends Application {
+    private static Context mContext;
     public static int mDisplayWidth;
     public static int mDisplayHeight;
 
@@ -15,17 +17,22 @@ public class CmApplication extends Application {
         super.onCreate();
 
         initDisplaySize();
+        setInitParameter();
     }
 
-    /**
-     * アプリの描画領域をゲット・セット
-     */
     private void initDisplaySize() {
-        WindowManager wm = (WindowManager) getSystemService(Activity.WINDOW_SERVICE);
-        Display disp = wm.getDefaultDisplay();
         Point size = new Point();
-        disp.getSize(size);
+        WindowManager wm = (WindowManager) getSystemService(Activity.WINDOW_SERVICE);
+        wm.getDefaultDisplay().getSize(size);
         CmApplication.mDisplayWidth = size.x;
         CmApplication.mDisplayHeight = size.y;
+    }
+
+    private void setInitParameter() {
+        CmApplication.mContext = getApplicationContext();
+    }
+
+    public static Context getContext() {
+        return CmApplication.mContext;
     }
 }
