@@ -19,6 +19,7 @@ import java.util.Date;
 import alonedroid.com.calmemo.activity.CmCameraActivity;
 import alonedroid.com.calmemo.realm.CmPhoto;
 import alonedroid.com.calmemo.scene.calendar.CmCalendarActivity;
+import alonedroid.com.calmemo.scene.cover.CmCoverActivity;
 import hugo.weaving.DebugLog;
 import io.realm.Realm;
 import io.realm.RealmQuery;
@@ -88,5 +89,10 @@ public class MainActivity extends ActionBarActivity {
 
         return sortedDescending.get(0).getCm_date();
 
+    }
+
+    @Click
+    public void show_animation(View v){
+        startActivity(new Intent(this, CmCoverActivity.class));
     }
 }

@@ -39,9 +39,9 @@ public class CmCameraActivity extends ActionBarActivity {
 
         try {
             Bitmap b = (Bitmap) data.getExtras().get("data");
-            CmPhotoPreserver cpp = new CmPhotoPreserver(b);
-            cpp.saveBitmap_png();
-            savePhotoRealm(b, cpp.getFileNameDate(), cpp.getFileNameTime());
+            CmPhotoPreserver provider = new CmPhotoPreserver(b);
+            provider.saveBitmap_png();
+            savePhotoRealm(b, provider.getFileNameDate(), provider.getFileNameTime());
 
             b.recycle();
         } catch (IOException e) {

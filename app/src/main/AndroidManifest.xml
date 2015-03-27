@@ -20,6 +20,7 @@
         </activity>
 
         <activity android:name=".scene.calendar.CmCalendarActivity" />
+        <activity android:name=".scene.cover.CmCoverActivity" />
         <activity
             android:name=".activity.CmCameraActivity"
             android:theme="@style/AppTheme.Translucent" />

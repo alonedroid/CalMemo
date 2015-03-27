@@ -2,9 +2,9 @@ package alonedroid.com.calmemo.scene.calendar;
 
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,6 +22,7 @@ import alonedroid.com.calmemo.CmApplication;
 import alonedroid.com.calmemo.CmUtility;
 import alonedroid.com.calmemo.R;
 import alonedroid.com.calmemo.realm.CmPhoto;
+import alonedroid.com.calmemo.scene.cover.CmCoverFragment;
 import alonedroid.com.calmemo.view.CmDateView;
 import hugo.weaving.DebugLog;
 import io.realm.Realm;
@@ -94,6 +95,7 @@ public class CmCalendarFragment extends Fragment {
     void onAfterViews() {
         this.cmCalendarYm.setText(this.argDisplayYear + " / " + this.argDisplayMonth);
 
+        CmOnClickListener listener = new CmOnClickListener();
         TypedArray color_array = getResources().obtainTypedArray(R.array.date_colors);
 
         final int right_margin = 1;
@@ -109,27 +111,13 @@ public class CmCalendarFragment extends Fragment {
                 cv.setDateColor(color_array.getColor(j % 7, 1));
                 cv.setDateImage(getPhoto(this.argDisplayYear + this.argDisplayMonth + String.format("%2s", this.mMonth[i][j]).replace(" ", "0")));
                 cv.setLayoutParams(new LinearLayout.LayoutParams(width, FrameLayout.LayoutParams.MATCH_PARENT));
+                cv.setOnClickListener(listener);
                 if (j + 1 < this.displayWeeksNum) {
                     cv.setPadding(0, 0, right_margin, 0);
                 }
                 ll_week.addView(cv);
             }
         }
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
     }
 
     public Bitmap getPhoto(String date) {
@@ -157,5 +145,15 @@ public class CmCalendarFragment extends Fragment {
             return null;
         }
 
+    }
+
+    private class CmOnClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            CmCalendarFragment.this.getChildFragmentManager().beginTransaction()
+                    .add(CmCoverFragment.newInstance(100, 100), "test")
+                    .commit();
+        }
     }
 }

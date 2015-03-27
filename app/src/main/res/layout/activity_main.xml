@@ -59,6 +59,15 @@
         android:layout_below="@id/take_a_picture"
         android:layout_alignParentLeft="true"
         />
+    <TextView
+        android:id="@+id/show_animation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="アニメーション"
+        android:gravity="center|center"
+        android:layout_below="@id/show_calendar"
+        android:layout_alignParentLeft="true"
+        />
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
