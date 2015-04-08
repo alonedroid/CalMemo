@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Point;
-import android.view.Display;
 import android.view.WindowManager;
 
 public class CmApplication extends Application {
@@ -34,5 +33,9 @@ public class CmApplication extends Application {
 
     public static Context getContext() {
         return CmApplication.mContext;
+    }
+
+    public static String getResourceString(int resourceId) {
+        return CmApplication.mContext.getString(resourceId);
     }
 }

@@ -1,7 +1,6 @@
 package alonedroid.com.calmemo.view;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.text.TextUtils;
@@ -37,23 +36,27 @@ public class CmDateView extends FrameLayout {
         this.mDateText = (TextView) v.findViewById(R.id.cm_date_text);
     }
 
+    public String getDate() {
+        return this.mDateText.getText().toString();
+    }
+
     public void setDate(String date) {
         if (TextUtils.isEmpty(date)) {
-            mDateText.setText("");
+            this.mDateText.setText("");
         } else {
-            mDateText.setText(date);
+            this.mDateText.setText(date);
         }
     }
 
-    public void setDateColor(int color){
-        mDateText.setTextColor(color);
+    public void setDateColor(int color) {
+        this.mDateText.setTextColor(color);
     }
 
     public void setDateImage(Bitmap image) {
         if (image != null) {
-            mDateText.setTextColor(Color.WHITE);
+            this.mDateText.setTextColor(Color.WHITE);
         }
 
-        mDateImage.setImageBitmap(image);
+        this.mDateImage.setImageBitmap(image);
     }
 }

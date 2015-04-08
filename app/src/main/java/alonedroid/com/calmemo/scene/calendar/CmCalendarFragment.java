@@ -1,5 +1,6 @@
 package alonedroid.com.calmemo.scene.calendar;
 
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
@@ -22,6 +24,7 @@ import alonedroid.com.calmemo.CmApplication;
 import alonedroid.com.calmemo.CmUtility;
 import alonedroid.com.calmemo.R;
 import alonedroid.com.calmemo.realm.CmPhoto;
+import alonedroid.com.calmemo.scene.album.CmAlbumActivity;
 import alonedroid.com.calmemo.scene.cover.CmCoverFragment;
 import alonedroid.com.calmemo.view.CmDateView;
 import hugo.weaving.DebugLog;
@@ -151,9 +154,10 @@ public class CmCalendarFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            CmCalendarFragment.this.getChildFragmentManager().beginTransaction()
-                    .add(CmCoverFragment.newInstance(100, 100), "test")
-                    .commit();
+            CmDateView view = (CmDateView) v;
+            Intent intent = new Intent(getActivity(), CmAlbumActivity.class);
+            intent.putExtra(CmAlbumActivity.ARG_DISPLAY_DATE, view.getDate());
+            startActivity(intent);
         }
     }
 }
