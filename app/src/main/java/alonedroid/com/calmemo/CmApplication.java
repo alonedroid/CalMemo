@@ -38,4 +38,12 @@ public class CmApplication extends Application {
     public static String getResourceString(int resourceId) {
         return CmApplication.mContext.getString(resourceId);
     }
+
+    public static int divideDisplayWidth(int part) {
+        return CmApplication.mDisplayWidth / part;
+    }
+
+    public static int divideDisplayHeight(int part) {
+        return CmApplication.mDisplayHeight / part;
+    }
 }

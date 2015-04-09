@@ -6,7 +6,7 @@ import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
 
-public class CmUtility {
+public class BitmapUtility {
     public static String decodeBitmap(Bitmap bitmap) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);

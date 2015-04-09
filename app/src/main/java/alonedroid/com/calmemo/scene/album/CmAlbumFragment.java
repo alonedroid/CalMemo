@@ -2,17 +2,21 @@ package alonedroid.com.calmemo.scene.album;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 
-import alonedroid.com.calmemo.CmUtility;
+import alonedroid.com.calmemo.BitmapUtility;
 import alonedroid.com.calmemo.R;
+import alonedroid.com.calmemo.fragment.ImageListFragment;
 import alonedroid.com.calmemo.realm.CmPhoto;
 import alonedroid.com.calmemo.realm.RealmAccessor;
 import hugo.weaving.DebugLog;
@@ -22,13 +26,12 @@ public class CmAlbumFragment extends Fragment {
 
     private static final String ARG_DISPLAY_DATE = "argDisplayDate";
 
-    @ViewById
-    ImageView CmAlbumImage;
+    @FragmentArg
+    String argDisplayDate;
 
     @Bean
     RealmAccessor accessor;
 
-    @DebugLog
     public static CmAlbumFragment newInstance(String displayDate) {
         Bundle args = new Bundle();
         args.putString(ARG_DISPLAY_DATE, displayDate);
@@ -40,7 +43,15 @@ public class CmAlbumFragment extends Fragment {
 
     @AfterViews
     void onAfterViews() {
-        List<CmPhoto> list = this.accessor.getPhotosByDate(getArguments().getString(ARG_DISPLAY_DATE));
-        this.CmAlbumImage.setImageBitmap(CmUtility.decodeBitmapString(list.get(0).getCm_photo()));
+        setImageListFragment();
+    }
+
+    void setImageListFragment(){
+        List<CmPhoto> list = this.accessor.getPhotosByDate(this.argDisplayDate);
+        Fragment fragment = ImageListFragment.newInstance(list.toArray(new CmPhoto[0]));
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_album, fragment)
+                .commit();
     }
 }

@@ -9,10 +9,10 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
@@ -20,12 +20,12 @@ import org.androidannotations.annotations.res.IntegerRes;
 
 import java.util.Calendar;
 
+import alonedroid.com.calmemo.BitmapUtility;
 import alonedroid.com.calmemo.CmApplication;
-import alonedroid.com.calmemo.CmUtility;
 import alonedroid.com.calmemo.R;
+import alonedroid.com.calmemo.StringUtility;
 import alonedroid.com.calmemo.realm.CmPhoto;
 import alonedroid.com.calmemo.scene.album.CmAlbumActivity;
-import alonedroid.com.calmemo.scene.cover.CmCoverFragment;
 import alonedroid.com.calmemo.view.CmDateView;
 import hugo.weaving.DebugLog;
 import io.realm.Realm;
@@ -38,6 +38,9 @@ public class CmCalendarFragment extends Fragment {
     private static final String ARG_DISPLAY_YEAR = "argDisplayYear";
 
     private static final String ARG_DISPLAY_MONTH = "argDisplayMonth";
+
+    @Bean
+    StringUtility stringUtility;
 
     @IntegerRes
     int displayWeeksNum;
@@ -98,7 +101,6 @@ public class CmCalendarFragment extends Fragment {
     void onAfterViews() {
         this.cmCalendarYm.setText(this.argDisplayYear + " / " + this.argDisplayMonth);
 
-        CmOnClickListener listener = new CmOnClickListener();
         TypedArray color_array = getResources().obtainTypedArray(R.array.date_colors);
 
         final int right_margin = 1;
@@ -114,7 +116,7 @@ public class CmCalendarFragment extends Fragment {
                 cv.setDateColor(color_array.getColor(j % 7, 1));
                 cv.setDateImage(getPhoto(this.argDisplayYear + this.argDisplayMonth + String.format("%2s", this.mMonth[i][j]).replace(" ", "0")));
                 cv.setLayoutParams(new LinearLayout.LayoutParams(width, FrameLayout.LayoutParams.MATCH_PARENT));
-                cv.setOnClickListener(listener);
+                cv.setOnClickListener(this::onClickListener);
                 if (j + 1 < this.displayWeeksNum) {
                     cv.setPadding(0, 0, right_margin, 0);
                 }
@@ -143,21 +145,21 @@ public class CmCalendarFragment extends Fragment {
 //                result.sort("age", RealmResults.SORT_ORDER_DECENDING);
 
         if (1 <= result.size()) {
-            return CmUtility.decodeBitmapString(result.get(0).getCm_photo());
+            return BitmapUtility.decodeBitmapString(result.get(0).getCm_photo());
         } else {
             return null;
         }
-
     }
 
-    private class CmOnClickListener implements View.OnClickListener {
+    public void onClickListener(View view) {
+        CmDateView dateView = (CmDateView) view;
+        String argDate = getYmd(dateView.getDate());
+        Intent intent = new Intent(getActivity(), CmAlbumActivity.class);
+        intent.putExtra(CmAlbumActivity.ARG_DISPLAY_DATE, argDate);
+        startActivity(intent);
+    }
 
-        @Override
-        public void onClick(View v) {
-            CmDateView view = (CmDateView) v;
-            Intent intent = new Intent(getActivity(), CmAlbumActivity.class);
-            intent.putExtra(CmAlbumActivity.ARG_DISPLAY_DATE, view.getDate());
-            startActivity(intent);
-        }
+    private String getYmd(String date){
+        return this.argDisplayYear + this.argDisplayMonth + stringUtility.format00(date);
     }
 }

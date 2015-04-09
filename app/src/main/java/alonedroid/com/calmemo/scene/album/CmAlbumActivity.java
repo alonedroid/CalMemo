@@ -4,16 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
-import android.widget.RelativeLayout;
-
-import org.androidannotations.annotations.AfterInject;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
 
 import alonedroid.com.calmemo.R;
-import alonedroid.com.calmemo.scene.cover.CmCoverFragment;
-import alonedroid.com.calmemo.scene.cover.CmCoverFragment_;
-import hugo.weaving.DebugLog;
 
 public class CmAlbumActivity extends ActionBarActivity {
 

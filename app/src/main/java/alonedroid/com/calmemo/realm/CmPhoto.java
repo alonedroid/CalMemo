@@ -1,12 +1,14 @@
 package alonedroid.com.calmemo.realm;
 
 
+import java.io.Serializable;
 import java.util.Date;
 
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 
-public class CmPhoto extends RealmObject {
+public class CmPhoto extends RealmObject implements Serializable {
+
     @Ignore
     public static final String CM_DATE_TIME = "cm_date_time";
     @Ignore
