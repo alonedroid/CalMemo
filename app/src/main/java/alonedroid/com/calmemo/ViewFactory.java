@@ -10,6 +10,8 @@ import android.widget.RelativeLayout;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 
+import alonedroid.com.calmemo.utility.BitmapUtility;
+
 @EBean
 public class ViewFactory {
 

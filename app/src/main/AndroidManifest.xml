@@ -41,9 +41,10 @@
                 android:resource="@xml/cm_widget_provider"/>
         </receiver>
 
-        <activity android:name=".scene.album.CmAlbumActivity"/>
+        <activity android:name=".scene.album.CmAlbumActivity_"/>
         <activity android:name=".scene.calendar.CmCalendarActivity"/>
-        <activity android:name=".scene.cover.CmCoverActivity"/>
+        <activity android:name=".scene.photographs.CmPhotographsActivity_">
+        </activity>
     </application>
 
 </manifest>

@@ -20,10 +20,11 @@ import org.androidannotations.annotations.res.IntegerRes;
 
 import java.util.Calendar;
 
-import alonedroid.com.calmemo.BitmapUtility;
+import alonedroid.com.calmemo.scene.album.CmAlbumActivity_;
+import alonedroid.com.calmemo.utility.BitmapUtility;
 import alonedroid.com.calmemo.CmApplication;
 import alonedroid.com.calmemo.R;
-import alonedroid.com.calmemo.StringUtility;
+import alonedroid.com.calmemo.utility.StringUtility;
 import alonedroid.com.calmemo.realm.CmPhoto;
 import alonedroid.com.calmemo.scene.album.CmAlbumActivity;
 import alonedroid.com.calmemo.view.CmDateView;
@@ -145,7 +146,7 @@ public class CmCalendarFragment extends Fragment {
 //                result.sort("age", RealmResults.SORT_ORDER_DECENDING);
 
         if (1 <= result.size()) {
-            return BitmapUtility.decodeBitmapString(result.get(0).getCm_photo());
+            return BitmapUtility.decodeBitmapString(result.get(0).getCmPhoto());
         } else {
             return null;
         }
@@ -154,9 +155,9 @@ public class CmCalendarFragment extends Fragment {
     public void onClickListener(View view) {
         CmDateView dateView = (CmDateView) view;
         String argDate = getYmd(dateView.getDate());
-        Intent intent = new Intent(getActivity(), CmAlbumActivity.class);
-        intent.putExtra(CmAlbumActivity.ARG_DISPLAY_DATE, argDate);
-        startActivity(intent);
+        CmAlbumActivity_.IntentBuilder_ builder_ = CmAlbumActivity_.intent(this);
+        builder_.argDisplayDate(argDate);
+        startActivity(builder_.get());
     }
 
     private String getYmd(String date){

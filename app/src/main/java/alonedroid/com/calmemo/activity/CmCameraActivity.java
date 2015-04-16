@@ -8,7 +8,7 @@ import android.os.Bundle;
 
 import java.io.IOException;
 
-import alonedroid.com.calmemo.BitmapUtility;
+import alonedroid.com.calmemo.utility.BitmapUtility;
 import alonedroid.com.calmemo.R;
 import alonedroid.com.calmemo.realm.CmPhoto;
 import alonedroid.com.calmemo.utility.CmPhotoPreserver;
@@ -52,10 +52,10 @@ public class CmCameraActivity extends ActionBarActivity {
         realm.beginTransaction();
 
         CmPhoto photo = realm.createObject(CmPhoto.class);
-        photo.setCm_date(date);
-        photo.setCm_time(time);
-        photo.setCm_photo(BitmapUtility.decodeBitmap(bitmap));
-        photo.setCm_action("");
+        photo.setCmDate(date);
+        photo.setCmTime(time);
+        photo.setCmPhoto(BitmapUtility.decodeBitmap(bitmap));
+        photo.setCmAction("");
         realm.commitTransaction();
 
         bitmap.recycle();

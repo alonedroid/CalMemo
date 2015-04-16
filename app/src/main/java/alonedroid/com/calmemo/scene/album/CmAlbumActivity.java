@@ -1,27 +1,25 @@
 package alonedroid.com.calmemo.scene.album;
 
-import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
+
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 
 import alonedroid.com.calmemo.R;
 
+@EActivity(R.layout.activity_cm_album)
 public class CmAlbumActivity extends ActionBarActivity {
 
-    public static String ARG_DISPLAY_DATE = "argDisplayDate";
+    @Extra
+    String argDisplayDate;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_album);
-
-        String displayDate = getIntent().getStringExtra(ARG_DISPLAY_DATE);
-
-        FragmentManager manager = getSupportFragmentManager();
-        CmAlbumFragment fragment = CmAlbumFragment_.newInstance(displayDate);
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.activity_album, fragment);
-        transaction.commit();
+    @AfterViews
+    void onAfterViews() {
+        CmAlbumFragment fragment = CmAlbumFragment_.newInstance(this.argDisplayDate);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.activity_album, fragment)
+                .commit();
     }
 }

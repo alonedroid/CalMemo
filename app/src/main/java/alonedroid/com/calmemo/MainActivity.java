@@ -1,10 +1,7 @@
 package alonedroid.com.calmemo;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -19,8 +16,6 @@ import java.util.Date;
 import alonedroid.com.calmemo.activity.CmCameraActivity;
 import alonedroid.com.calmemo.realm.CmPhoto;
 import alonedroid.com.calmemo.scene.calendar.CmCalendarActivity;
-import alonedroid.com.calmemo.scene.cover.CmCoverActivity;
-import hugo.weaving.DebugLog;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -49,11 +44,11 @@ public class MainActivity extends ActionBarActivity {
         realm.beginTransaction();
 
         CmPhoto photo = realm.createObject(CmPhoto.class);
-        photo.setCm_date_time(new Date());
-        photo.setCm_date(new SimpleDateFormat("yyyyMMdd").format(new Date()));
-        photo.setCm_time(new SimpleDateFormat("HHmmss").format(new Date()));
-        photo.setCm_photo("");
-        photo.setCm_action(cm_action);
+        photo.setCmDateTime(new Date());
+        photo.setCmDate(new SimpleDateFormat("yyyyMMdd").format(new Date()));
+        photo.setCmTime(new SimpleDateFormat("HHmmss").format(new Date()));
+        photo.setCmPhoto("");
+        photo.setCmAction(cm_action);
         realm.commitTransaction();
 
         Toast.makeText(this, "save", Toast.LENGTH_LONG).show();
@@ -87,12 +82,7 @@ public class MainActivity extends ActionBarActivity {
                 result.sort(CmPhoto.CM_DATE_TIME, RealmResults.SORT_ORDER_DECENDING);
 
 
-        return sortedDescending.get(0).getCm_date();
+        return sortedDescending.get(0).getCmDate();
 
-    }
-
-    @Click
-    public void show_animation(View v){
-        startActivity(new Intent(this, CmCoverActivity.class));
     }
 }

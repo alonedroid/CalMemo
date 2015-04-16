@@ -25,5 +25,6 @@
     <string name="cm_widget_receive_action">android.intent.action.ACTION_WIDGET_CM_CAMERA</string>
     <string name="title_activity_cm_camera">CmCameraActivity</string>
     <string name="title_activity_album">AlbumActivity</string>
+    <string name="title_activity_cm_photographs">CmPhotographsActivity</string>
 
 </resources>

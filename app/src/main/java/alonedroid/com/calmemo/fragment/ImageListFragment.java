@@ -1,19 +1,15 @@
 package alonedroid.com.calmemo.fragment;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
-
-import java.util.List;
 
 import alonedroid.com.calmemo.CmApplication;
 import alonedroid.com.calmemo.R;
@@ -22,8 +18,6 @@ import alonedroid.com.calmemo.realm.CmPhoto;
 
 @EFragment(R.layout.fragment_image_list)
 public class ImageListFragment extends Fragment {
-
-    private static final String ARG_IMAGE_LIST = "argImageList";
 
     private static final int DIVIDE_WIDTH_PART = 4;
 
@@ -36,12 +30,12 @@ public class ImageListFragment extends Fragment {
     @ViewById
     LinearLayout fragmentImageList;
 
+    OnImageClickedListener listener;
+
     public static ImageListFragment newInstance(CmPhoto[] imageList) {
-        ImageListFragment fragment = new ImageListFragment_();
-        Bundle args = new Bundle();
-        args.putSerializable(ARG_IMAGE_LIST, imageList);
-        fragment.setArguments(args);
-        return fragment;
+        ImageListFragment_.FragmentBuilder_ builder_ = ImageListFragment_.builder();
+        builder_.argImageList(imageList);
+        return builder_.build();
     }
 
     @AfterViews
@@ -53,14 +47,24 @@ public class ImageListFragment extends Fragment {
         int divideDisplayWidth = CmApplication.divideDisplayWidth(DIVIDE_WIDTH_PART);
 
         ImageView image;
-        LinearLayout relative = factory.newLinearLayout(ViewGroup.LayoutParams.WRAP_CONTENT, divideDisplayWidth);
+        LinearLayout layout = this.factory.newLinearLayout(ViewGroup.LayoutParams.WRAP_CONTENT, divideDisplayWidth);
         for (int i = 0; i < this.argImageList.length; i++) {
             if (i % DIVIDE_WIDTH_PART == 0) {
-                relative = factory.newLinearLayout(ViewGroup.LayoutParams.WRAP_CONTENT, divideDisplayWidth);
-                this.fragmentImageList.addView(relative);
+                layout = this.factory.newLinearLayout(ViewGroup.LayoutParams.WRAP_CONTENT, divideDisplayWidth);
+                this.fragmentImageList.addView(layout);
             }
-            image = factory.newImageView(argImageList[i].getCm_photo(), divideDisplayWidth, divideDisplayWidth);
-            relative.addView(image);
+            final int index = i;
+            image = this.factory.newImageView(this.argImageList[i].getCmPhoto(), divideDisplayWidth, divideDisplayWidth);
+            image.setOnClickListener(view -> this.listener.onClick(this.argImageList[index]));
+            layout.addView(image);
         }
+    }
+
+    public void setClickedListener(OnImageClickedListener listener) {
+        this.listener = listener;
+    }
+
+    public interface OnImageClickedListener {
+        public void onClick(CmPhoto bean);
     }
 }

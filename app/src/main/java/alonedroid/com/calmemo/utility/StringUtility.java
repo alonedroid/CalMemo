@@ -1,4 +1,4 @@
-package alonedroid.com.calmemo;
+package alonedroid.com.calmemo.utility;
 
 import org.androidannotations.annotations.EBean;
 

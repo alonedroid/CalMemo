@@ -1,4 +1,4 @@
-package alonedroid.com.calmemo;
+package alonedroid.com.calmemo.utility;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

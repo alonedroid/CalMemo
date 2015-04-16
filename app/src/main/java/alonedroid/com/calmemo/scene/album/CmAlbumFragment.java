@@ -1,30 +1,23 @@
 package alonedroid.com.calmemo.scene.album;
 
-import android.os.Bundle;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.widget.ImageView;
-import android.widget.ScrollView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
-import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 
-import alonedroid.com.calmemo.BitmapUtility;
 import alonedroid.com.calmemo.R;
 import alonedroid.com.calmemo.fragment.ImageListFragment;
 import alonedroid.com.calmemo.realm.CmPhoto;
 import alonedroid.com.calmemo.realm.RealmAccessor;
-import hugo.weaving.DebugLog;
+import alonedroid.com.calmemo.scene.photographs.CmPhotographsActivity_;
 
 @EFragment(R.layout.fragment_album)
 public class CmAlbumFragment extends Fragment {
-
-    private static final String ARG_DISPLAY_DATE = "argDisplayDate";
 
     @FragmentArg
     String argDisplayDate;
@@ -33,12 +26,9 @@ public class CmAlbumFragment extends Fragment {
     RealmAccessor accessor;
 
     public static CmAlbumFragment newInstance(String displayDate) {
-        Bundle args = new Bundle();
-        args.putString(ARG_DISPLAY_DATE, displayDate);
-
-        CmAlbumFragment fragment = new CmAlbumFragment_();
-        fragment.setArguments(args);
-        return fragment;
+        CmAlbumFragment_.FragmentBuilder_ builder_ = CmAlbumFragment_.builder();
+        builder_.argDisplayDate(displayDate);
+        return builder_.build();
     }
 
     @AfterViews
@@ -46,12 +36,25 @@ public class CmAlbumFragment extends Fragment {
         setImageListFragment();
     }
 
-    void setImageListFragment(){
+    void setImageListFragment() {
         List<CmPhoto> list = this.accessor.getPhotosByDate(this.argDisplayDate);
-        Fragment fragment = ImageListFragment.newInstance(list.toArray(new CmPhoto[0]));
+        ImageListFragment fragment = ImageListFragment.newInstance(list.toArray(new CmPhoto[0]));
+        fragment.setClickedListener(this::OnImageClickedListener);
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_album, fragment)
                 .commit();
+    }
+
+    private void OnImageClickedListener(CmPhoto bean) {
+        Intent intent = CmPhotographsActivity_.getIntent(bean.getCmDateTime().toString(), bean.getCmPhoto());
+        startActivityForResult(intent, 0);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // TODO 一覧が変更されていれば更新する
     }
 }

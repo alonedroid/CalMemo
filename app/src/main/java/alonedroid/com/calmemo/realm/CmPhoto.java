@@ -10,59 +10,59 @@ import io.realm.annotations.Ignore;
 public class CmPhoto extends RealmObject implements Serializable {
 
     @Ignore
-    public static final String CM_DATE_TIME = "cm_date_time";
+    public static final String CM_DATE_TIME = "cmDateTime";
     @Ignore
-    public static final String CM_DATE = "cm_date";
+    public static final String CM_DATE = "cmDate";
     @Ignore
-    public static final String CM_TIME = "cm_time";
+    public static final String CM_TIME = "cmTime";
     @Ignore
-    public static final String CM_PHOTO = "cm_photo";
+    public static final String CM_PHOTO = "cmPhoto";
     @Ignore
-    public static final String CM_ACTION = "cm_action";
+    public static final String CM_ACTION = "cmAction";
 
-    private Date cm_date_time;
-    private String cm_date;
-    private String cm_time;
-    private String cm_photo;
-    private String cm_action;
+    private Date cmDateTime;
+    private String cmDate;
+    private String cmTime;
+    private String cmPhoto;
+    private String cmAction;
 
-    public Date getCm_date_time() {
-        return cm_date_time;
+    public Date getCmDateTime() {
+        return cmDateTime;
     }
 
-    public void setCm_date_time(Date cm_date_time) {
-        this.cm_date_time = cm_date_time;
+    public void setCmDateTime(Date cmDateTime) {
+        this.cmDateTime = cmDateTime;
     }
 
-    public String getCm_date() {
-        return cm_date;
+    public String getCmDate() {
+        return cmDate;
     }
 
-    public void setCm_date(String cm_date) {
-        this.cm_date = cm_date;
+    public void setCmDate(String cmDate) {
+        this.cmDate = cmDate;
     }
 
-    public String getCm_time() {
-        return cm_time;
+    public String getCmTime() {
+        return cmTime;
     }
 
-    public void setCm_time(String cm_time) {
-        this.cm_time = cm_time;
+    public void setCmTime(String cmTime) {
+        this.cmTime = cmTime;
     }
 
-    public String getCm_photo() {
-        return cm_photo;
+    public String getCmPhoto() {
+        return cmPhoto;
     }
 
-    public void setCm_photo(String cm_photo) {
-        this.cm_photo = cm_photo;
+    public void setCmPhoto(String cmPhoto) {
+        this.cmPhoto = cmPhoto;
     }
 
-    public String getCm_action() {
-        return cm_action;
+    public String getCmAction() {
+        return cmAction;
     }
 
-    public void setCm_action(String cm_action) {
-        this.cm_action = cm_action;
+    public void setCmAction(String cmAction) {
+        this.cmAction = cmAction;
     }
 }
