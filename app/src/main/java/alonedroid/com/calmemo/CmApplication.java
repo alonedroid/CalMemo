@@ -1,28 +1,33 @@
 package alonedroid.com.calmemo;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Point;
 import android.view.WindowManager;
 
+import org.androidannotations.annotations.AfterInject;
+import org.androidannotations.annotations.EApplication;
+import org.androidannotations.annotations.SystemService;
+
+@EApplication
 public class CmApplication extends Application {
+
+    @SystemService
+    WindowManager windowManager;
+
     private static Context mContext;
     public static int mDisplayWidth;
     public static int mDisplayHeight;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
+    @AfterInject
+    void onAfterInject() {
         initDisplaySize();
         setInitParameter();
     }
 
     private void initDisplaySize() {
         Point size = new Point();
-        WindowManager wm = (WindowManager) getSystemService(Activity.WINDOW_SERVICE);
-        wm.getDefaultDisplay().getSize(size);
+        windowManager.getDefaultDisplay().getSize(size);
         CmApplication.mDisplayWidth = size.x;
         CmApplication.mDisplayHeight = size.y;
     }

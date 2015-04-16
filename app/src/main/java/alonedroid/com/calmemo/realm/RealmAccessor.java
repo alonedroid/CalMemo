@@ -1,22 +1,27 @@
 package alonedroid.com.calmemo.realm;
 
+import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.res.StringRes;
 
 import java.util.List;
 
 import alonedroid.com.calmemo.CmApplication;
-import alonedroid.com.calmemo.R;
-import hugo.weaving.DebugLog;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
 @EBean
 public class RealmAccessor {
 
-    public List<CmPhoto> getPhotosByDate(String date) {
-        Realm realm = Realm.getInstance(CmApplication.getContext(), CmApplication.getResourceString(R.string.realm_instance));
+    @App
+    CmApplication app;
 
-        RealmResults<CmPhoto> result = realm.where(CmPhoto.class)
+    @StringRes
+    String realmInstance;
+
+    public List<CmPhoto> getPhotosByDate(String date) {
+        RealmResults<CmPhoto> result = Realm.getInstance(this.app, this.realmInstance)
+                .where(CmPhoto.class)
                 .equalTo(CmPhoto.CM_DATE, date)
                 .notEqualTo(CmPhoto.CM_PHOTO, "")
                 .findAll();
@@ -27,7 +32,5 @@ public class RealmAccessor {
         } else {
             return null;
         }
-
     }
-
 }
