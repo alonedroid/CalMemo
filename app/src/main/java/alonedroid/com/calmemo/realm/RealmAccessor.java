@@ -20,17 +20,23 @@ public class RealmAccessor {
     String realmInstance;
 
     public List<CmPhoto> getPhotosByDate(String date) {
-        RealmResults<CmPhoto> result = Realm.getInstance(this.app, this.realmInstance)
-                .where(CmPhoto.class)
-                .equalTo(CmPhoto.CM_DATE, date)
-                .notEqualTo(CmPhoto.CM_PHOTO, "")
-                .findAll();
+        Realm realm = Realm.getInstance(this.app, this.realmInstance);
 
-        if (result.size() > 0) {
-            RealmResults<CmPhoto> sortedAscending = result.sort(CmPhoto.CM_DATE_TIME);
-            return sortedAscending;
-        } else {
-            return null;
+        try {
+            RealmResults<CmPhoto> result = realm
+                    .where(CmPhoto.class)
+                    .equalTo(CmPhoto.CM_DATE, date)
+                    .notEqualTo(CmPhoto.CM_PHOTO, "")
+                    .findAll();
+
+            if (result.size() > 0) {
+                result.sort(CmPhoto.CM_DATE_TIME);
+                return result;
+            }
+        } finally {
+            realm.close();
         }
+
+        return null;
     }
 }
