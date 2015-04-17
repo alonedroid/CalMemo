@@ -19,45 +19,42 @@ public class RealmAccessor {
     @StringRes
     String realmInstance;
 
+    Realm realm;
+
     public List<CmPhoto> getPhotosByDate(String date) {
-        Realm realm = Realm.getInstance(this.app, this.realmInstance);
+        this.realm = Realm.getInstance(this.app, this.realmInstance);
 
-        try {
-            RealmResults<CmPhoto> result = realm
-                    .where(CmPhoto.class)
-                    .equalTo(CmPhoto.CM_DATE, date)
-                    .notEqualTo(CmPhoto.CM_PHOTO, "")
-                    .findAll();
+        RealmResults<CmPhoto> result = realm
+                .where(CmPhoto.class)
+                .equalTo(CmPhoto.CM_DATE, date)
+                .notEqualTo(CmPhoto.CM_PHOTO, "")
+                .findAll();
 
-            if (result.size() > 0) {
-                result.sort(CmPhoto.CM_DATE_TIME);
-                return result;
-            }
-        } finally {
-            realm.close();
+        if (result.size() > 0) {
+            result.sort(CmPhoto.CM_DATE_TIME);
+            return result;
         }
 
         return null;
     }
 
     public List<CmPhoto> getPhotosByDate(String yyyy, String mm) {
-        Realm realm = Realm.getInstance(this.app, this.realmInstance);
+        this.realm = Realm.getInstance(this.app, this.realmInstance);
 
-        try {
-            RealmResults<CmPhoto> result = realm
-                    .where(CmPhoto.class)
-                    .beginsWith(CmPhoto.CM_DATE, yyyy + mm)
-                    .notEqualTo(CmPhoto.CM_PHOTO, "")
-                    .findAll();
+        RealmResults<CmPhoto> result = realm
+                .where(CmPhoto.class)
+                .beginsWith(CmPhoto.CM_DATE, yyyy + mm)
+                .notEqualTo(CmPhoto.CM_PHOTO, "")
+                .findAll();
 
-            if (result.size() > 0) {
-                result.sort(CmPhoto.CM_DATE_TIME);
-                return result;
-            }
-        } finally {
-            realm.close();
+        if (result.size() > 0) {
+            return result.subList(0, result.size());
         }
 
         return null;
+    }
+
+    public void close() {
+        this.realm.close();
     }
 }

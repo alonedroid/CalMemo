@@ -119,11 +119,10 @@ public class CmCalendarChildFragment extends Fragment {
     }
 
     private Bitmap getPhoto(String date) {
-        if (this.photoList == null || this.photoList.size() == 0) return null;
+        if (this.photoList == null) return null;
 
         for (CmPhoto photo : this.photoList) {
             if (photo.getCmDate().equals(date)) {
-                this.photoList.remove(photo);
                 return BitmapUtility.decodeBitmapString(photo.getCmPhoto());
             }
         }
@@ -149,5 +148,11 @@ public class CmCalendarChildFragment extends Fragment {
         builder_.argDisplayYear(displayYear);
         builder_.argDisplayMonth(displayMonth);
         return builder_.build();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.accessor.close();
     }
 }
