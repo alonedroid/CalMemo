@@ -1,11 +1,9 @@
 package alonedroid.com.calmemo.scene.calendar;
 
-import android.content.Intent;
+
+import android.app.Fragment;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.View;
+import android.support.v4.view.ViewPager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,153 +12,126 @@ import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.res.DimensionPixelSizeRes;
 import org.androidannotations.annotations.res.IntegerRes;
+import org.androidannotations.annotations.res.StringArrayRes;
 
-import java.util.Calendar;
-
-import alonedroid.com.calmemo.scene.album.CmAlbumActivity_;
-import alonedroid.com.calmemo.utility.BitmapUtility;
 import alonedroid.com.calmemo.CmApplication;
 import alonedroid.com.calmemo.R;
-import alonedroid.com.calmemo.utility.StringUtility;
-import alonedroid.com.calmemo.realm.CmPhoto;
-import alonedroid.com.calmemo.scene.album.CmAlbumActivity;
+import alonedroid.com.calmemo.ViewFactory;
+import alonedroid.com.calmemo.utility.CalendarUtility;
 import alonedroid.com.calmemo.view.CmDateView;
-import hugo.weaving.DebugLog;
-import io.realm.Realm;
-import io.realm.RealmQuery;
-import io.realm.RealmResults;
 
-@EFragment(R.layout.fragment_mc_calendar)
+@EFragment(R.layout.fragment_cm_calendar)
 public class CmCalendarFragment extends Fragment {
 
-    private static final String ARG_DISPLAY_YEAR = "argDisplayYear";
-
-    private static final String ARG_DISPLAY_MONTH = "argDisplayMonth";
+    @Bean
+    ViewFactory factory;
 
     @Bean
-    StringUtility stringUtility;
+    CalendarUtility calendarUtility;
 
     @IntegerRes
-    int displayWeeksNum;
+    int displayYears;
 
     @IntegerRes
-    int displayDatesNum;
+    int displayCol;
+
+    @DimensionPixelSizeRes
+    int dimenFrame;
+
+    @StringArrayRes
+    String[] dateStrings;
+
+    TypedArray dateColors;
 
     @ViewById
-    LinearLayout cmCalendarRoot;
+    TextView cmCalendarYmView;
 
     @ViewById
-    TextView cmCalendarYm;
+    LinearLayout cmCalendarDayOfWeekView;
 
-    @FragmentArg
-    String argDisplayYear;
+    @ViewById
+    ViewPager cmCalendarPager;
 
-    @FragmentArg
-    String argDisplayMonth;
+    private CmCalendarAdapter adapter;
 
-    private String[][] mMonth;
+    private int basePosition;
 
-    @DebugLog
-    public static CmCalendarFragment newInstance(String display_year, String display_month) {
-        Bundle args = new Bundle();
-        args.putString(ARG_DISPLAY_YEAR, display_year);
-        args.putString(ARG_DISPLAY_MONTH, display_month);
-
-        CmCalendarFragment fragment = new CmCalendarFragment_();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @DebugLog
     @AfterInject
     void onAfterInject() {
-        mMonth = new String[this.displayWeeksNum][this.displayDatesNum];
-
-        // 曜日を配列に格納
-        String[] week_str = getResources().getStringArray(R.array.date_strings);
-        for (int i = 0; i < week_str.length; i++) {
-            this.mMonth[0][i] = week_str[i];
-        }
-
-        // 日付を配列に格納
-        final Calendar cal = Calendar.getInstance();
-
-        cal.set(Integer.parseInt(this.argDisplayYear), Integer.parseInt(this.argDisplayMonth) - 1, 1);
-        for (int i = 0; i < 31; i++) {
-            int week_no = cal.get(Calendar.WEEK_OF_MONTH);
-            int date_no = cal.get(Calendar.DAY_OF_WEEK) - 1;
-            this.mMonth[week_no][date_no] = String.valueOf(cal.get(Calendar.DATE));
-            cal.add(Calendar.DATE, 1);
-        }
+        this.dateColors = getResources().obtainTypedArray(R.array.date_colors);
     }
 
-    @DebugLog
     @AfterViews
     void onAfterViews() {
-        this.cmCalendarYm.setText(this.argDisplayYear + " / " + this.argDisplayMonth);
+        initPager();
+        initCalendarYmView();
+        initDayOfWeek();
+    }
 
-        TypedArray color_array = getResources().obtainTypedArray(R.array.date_colors);
+    private void initPager() {
+        // 前後何年を表示するのか、初期値を設定する
+        this.adapter = new CmCalendarAdapter(getFragmentManager());
+        this.adapter.setPageCountYears(this.displayYears);
+        this.cmCalendarPager.setAdapter(this.adapter);
 
-        final int right_margin = 1;
-        for (int i = 0; i < this.displayDatesNum; i++) {
-            LinearLayout ll_week = (LinearLayout) this.cmCalendarRoot.findViewById(getResources().getIdentifier("cm_calendar_" + i, "id", getActivity().getPackageName()));
+        // 初期位置を中央に持っていき、前後スワイプ可能にする
+        this.basePosition = this.adapter.calculateBasePosition();
+        this.cmCalendarPager.setCurrentItem(this.basePosition);
 
-            int left_width = CmApplication.mDisplayWidth;
-            for (int j = 0; j < this.displayWeeksNum; j++) {
-                int width = left_width / (this.displayWeeksNum - j);
-                left_width -= width;
-                CmDateView cv = new CmDateView(getActivity());
-                cv.setDate(this.mMonth[i][j]);
-                cv.setDateColor(color_array.getColor(j % 7, 1));
-                cv.setDateImage(getPhoto(this.argDisplayYear + this.argDisplayMonth + String.format("%2s", this.mMonth[i][j]).replace(" ", "0")));
-                cv.setLayoutParams(new LinearLayout.LayoutParams(width, FrameLayout.LayoutParams.MATCH_PARENT));
-                cv.setOnClickListener(this::onClickListener);
-                if (j + 1 < this.displayWeeksNum) {
-                    cv.setPadding(0, 0, right_margin, 0);
-                }
-                ll_week.addView(cv);
+        this.cmCalendarPager.setOnPageChangeListener(onPageChangedListener());
+    }
+
+    private ViewPager.OnPageChangeListener onPageChangedListener() {
+        return new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i2) {
+
             }
+
+            @Override
+            public void onPageSelected(int i) {
+                CmCalendarFragment.this.calendarUtility.offsetMonthToday(i - CmCalendarFragment.this.basePosition);
+                setCmCalendarYmView();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        };
+    }
+
+    private void initCalendarYmView() {
+        this.calendarUtility.offsetMonthToday(0);
+        setCmCalendarYmView();
+    }
+
+    private void setCmCalendarYmView() {
+        String calendarYm = this.calendarUtility.getYYYY() + " / " + this.calendarUtility.getMM();
+        this.cmCalendarYmView.setText(calendarYm);
+    }
+
+    private void initDayOfWeek() {
+        for (int i = 0; i < 7; i++) {
+            CmDateView view = generateDateView(i);
+            this.cmCalendarDayOfWeekView.addView(view);
         }
     }
 
-    public Bitmap getPhoto(String date) {
-        Realm realm = Realm.getInstance(getActivity(), getString(R.string.realm_instance));
+    private CmDateView generateDateView(int index) {
+        String date = this.dateStrings[index];
+        int color = this.dateColors.getColor(index % 7, 1);
+        int width = CmApplication.divideDisplayWidth(this.displayCol);
+        int height = FrameLayout.LayoutParams.MATCH_PARENT;
 
-        RealmQuery<CmPhoto> query = realm.where(CmPhoto.class);
-        query.equalTo(CmPhoto.CM_DATE, date);
-        RealmResults<CmPhoto> resultAll = query.findAll();
-        RealmResults<CmPhoto> result =
-                realm.where(CmPhoto.class)
-                        .equalTo(CmPhoto.CM_DATE, date)
-                        .notEqualTo(CmPhoto.CM_PHOTO, "")
-//                        .or()
-//                        .equalTo("name", "Chip")
-                        .findAll();
-
-//        RealmResults<CmPhoto> sortedAscending  = result.sort("age");
-//
-//        RealmResults<CmPhoto> sortedDescending =
-//                result.sort("age", RealmResults.SORT_ORDER_DECENDING);
-
-        if (1 <= result.size()) {
-            return BitmapUtility.decodeBitmapString(result.get(0).getCmPhoto());
-        } else {
-            return null;
-        }
+        return this.factory.newCmDateView(date, color, null, width, height, this.dimenFrame);
     }
 
-    public void onClickListener(View view) {
-        CmDateView dateView = (CmDateView) view;
-        String argDate = getYmd(dateView.getDate());
-        CmAlbumActivity_.IntentBuilder_ builder_ = CmAlbumActivity_.intent(this);
-        builder_.argDisplayDate(argDate);
-        startActivity(builder_.get());
-    }
-
-    private String getYmd(String date){
-        return this.argDisplayYear + this.argDisplayMonth + stringUtility.format00(date);
+    public static CmCalendarFragment newInstance() {
+        CmCalendarFragment_.FragmentBuilder_ builder_ = CmCalendarFragment_.builder();
+        return builder_.build();
     }
 }

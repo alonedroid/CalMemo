@@ -14,7 +14,7 @@ import alonedroid.com.calmemo.R;
 import alonedroid.com.calmemo.fragment.ImageListFragment;
 import alonedroid.com.calmemo.realm.CmPhoto;
 import alonedroid.com.calmemo.realm.RealmAccessor;
-import alonedroid.com.calmemo.scene.photographs.CmPhotographsActivity_;
+import alonedroid.com.calmemo.scene.photographs.CmPhotographsActivity;
 
 @EFragment(R.layout.fragment_album)
 public class CmAlbumFragment extends Fragment {
@@ -47,7 +47,7 @@ public class CmAlbumFragment extends Fragment {
     }
 
     private void OnImageClickedListener(CmPhoto bean) {
-        Intent intent = CmPhotographsActivity_.getIntent(bean.getCmDateTime().toString(), bean.getCmPhoto());
+        Intent intent = CmPhotographsActivity.newIntent(bean.getCmDateTime().toString(), bean.getCmPhoto());
         startActivityForResult(intent, 0);
     }
 

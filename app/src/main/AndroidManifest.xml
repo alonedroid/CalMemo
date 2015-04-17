@@ -18,8 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".scene.album.CmAlbumActivity_"/>
+        <activity android:name=".scene.calendar.CmCalendarActivity_"/>
+        <activity android:name=".scene.photographs.CmPhotographsActivity_"/>
         <activity
-            android:name=".activity.CmCameraActivity"
+            android:name=".activity.CmCameraActivity_"
             android:theme="@style/AppTheme.Translucent"/>
 
         <receiver android:name=".widget.CmWidgetProvider">
@@ -40,11 +43,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/cm_widget_provider"/>
         </receiver>
-
-        <activity android:name=".scene.album.CmAlbumActivity_"/>
-        <activity android:name=".scene.calendar.CmCalendarActivity"/>
-        <activity android:name=".scene.photographs.CmPhotographsActivity_">
-        </activity>
     </application>
 
 </manifest>

@@ -1,54 +1,62 @@
 package alonedroid.com.calmemo.scene.calendar;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.support.v13.app.FragmentStatePagerAdapter;
+
+import alonedroid.com.calmemo.CmApplication;
+import alonedroid.com.calmemo.utility.CalendarUtility;
+import alonedroid.com.calmemo.utility.CalendarUtility_;
+import lombok.Getter;
+import lombok.Setter;
 
 public class CmCalendarAdapter extends FragmentStatePagerAdapter {
-    private int mDisplayYears;
-    private int mFlatPosition;
-    private Calendar mCalendar;
+
+    @Setter
+    private int pageCountYears;
+
+    @Getter
+    private String displayYear;
+
+    @Getter
+    private String displayMonth;
+
+    @Getter
+    private int basePosition;
+
+    private CalendarUtility calendar;
 
     public CmCalendarAdapter(FragmentManager fm) {
         super(fm);
-        this.mCalendar = Calendar.getInstance();
+        this.calendar = CalendarUtility_.getInstance_(CmApplication.getContext());
     }
 
     @Override
     public Fragment getItem(int position) {
-        if (this.mFlatPosition == 0) {
-            calculateFlatPosition();
+        if (this.basePosition == 0) {
+            calculateBasePosition();
         }
 
         // 中央位置からの差分で対象の年月を計算する
-        this.mCalendar.setTime(new Date());
-        this.mCalendar.add(Calendar.MONTH, position - this.mFlatPosition);
-        String display_year = new SimpleDateFormat("yyyy").format(this.mCalendar.getTime());
-        String display_month = new SimpleDateFormat("MM").format(this.mCalendar.getTime());
-        CmCalendarFragment fragment = CmCalendarFragment_.newInstance(display_year, display_month);
-        return fragment;
+        adjustCalendar(position);
+        return CmCalendarChildFragment_.newInstance(this.displayYear, this.displayMonth);
     }
 
     @Override
     public int getCount() {
         // 前後10年分を総数とする
-        return this.mDisplayYears * 12 * 2;
+        return this.pageCountYears * 12 * 2;
     }
 
-    void setDisplayYears(int display_years) {
-        this.mDisplayYears = display_years;
+    int calculateBasePosition() {
+        this.basePosition = this.pageCountYears * 12 * 2 / 2;
+        return getBasePosition();
     }
 
-    int calculateFlatPosition() {
-        this.mFlatPosition = this.mDisplayYears * 12 * 2 / 2;
-        return getFlatPosition();
-    }
-
-    int getFlatPosition() {
-        return this.mFlatPosition;
+    private void adjustCalendar(int position) {
+        this.calendar.offsetMonthToday(position - this.basePosition);
+        this.displayYear = this.calendar.getYYYY();
+        this.displayMonth = this.calendar.getMM();
     }
 }

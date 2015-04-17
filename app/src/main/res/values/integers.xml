@@ -2,6 +2,6 @@
 <resources>
 
     <integer name="display_years">10</integer>
-    <integer name="display_weeks_num">7</integer>
-    <integer name="display_dates_num">7</integer>
+    <integer name="display_col">7</integer>
+    <integer name="display_row">6</integer>
 </resources>

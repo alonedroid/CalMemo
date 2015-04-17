@@ -16,8 +16,8 @@ public class CmApplication extends Application {
     WindowManager windowManager;
 
     private static Context mContext;
-    public static int mDisplayWidth;
-    public static int mDisplayHeight;
+    private static int mDisplayWidth;
+    private static int mDisplayHeight;
 
     @AfterInject
     void onAfterInject() {

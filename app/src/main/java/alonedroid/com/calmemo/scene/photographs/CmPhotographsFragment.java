@@ -10,7 +10,6 @@ import org.androidannotations.annotations.ViewById;
 
 import alonedroid.com.calmemo.R;
 import alonedroid.com.calmemo.utility.BitmapUtility;
-import hugo.weaving.DebugLog;
 
 @EFragment(R.layout.fragment_cm_photographs)
 public class CmPhotographsFragment extends Fragment {
@@ -24,7 +23,6 @@ public class CmPhotographsFragment extends Fragment {
     @ViewById
     ImageView cmPhotographsImage;
 
-    @DebugLog
     public static CmPhotographsFragment newInstance(String key, String image) {
         CmPhotographsFragment_.FragmentBuilder_ builder_ = CmPhotographsFragment_.builder();
         builder_.argDisplayImageKey(key);

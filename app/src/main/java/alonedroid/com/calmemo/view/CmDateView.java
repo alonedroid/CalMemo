@@ -15,8 +15,12 @@ import alonedroid.com.calmemo.R;
 
 
 public class CmDateView extends FrameLayout {
-    private ImageView mDateImage;
-    private TextView mDateText;
+
+    private ImageView dateImageView;
+
+    private TextView dateTextView;
+
+    private boolean hasImage;
 
     public CmDateView(Context context) {
         this(context, null);
@@ -32,31 +36,37 @@ public class CmDateView extends FrameLayout {
         LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.view_cm_date, this);
 
-        this.mDateImage = (ImageView) v.findViewById(R.id.cm_date_image);
-        this.mDateText = (TextView) v.findViewById(R.id.cm_date_text);
+        this.dateImageView = (ImageView) v.findViewById(R.id.cm_date_image);
+        this.dateTextView = (TextView) v.findViewById(R.id.cm_date_text);
     }
 
     public String getDate() {
-        return this.mDateText.getText().toString();
+        return this.dateTextView.getText().toString();
     }
 
     public void setDate(String date) {
         if (TextUtils.isEmpty(date)) {
-            this.mDateText.setText("");
+            this.dateTextView.setText("");
         } else {
-            this.mDateText.setText(date);
+            this.dateTextView.setText(date);
         }
     }
 
     public void setDateColor(int color) {
-        this.mDateText.setTextColor(color);
+        this.dateTextView.setTextColor(color);
     }
 
     public void setDateImage(Bitmap image) {
-        if (image != null) {
-            this.mDateText.setTextColor(Color.WHITE);
+        this.hasImage = (image != null);
+
+        if (this.hasImage) {
+            this.dateTextView.setTextColor(Color.WHITE);
         }
 
-        this.mDateImage.setImageBitmap(image);
+        this.dateImageView.setImageBitmap(image);
+    }
+
+    public boolean hasImage() {
+        return this.hasImage;
     }
 }

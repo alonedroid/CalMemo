@@ -2,17 +2,16 @@ package alonedroid.com.calmemo.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 
 import java.io.IOException;
 
-import alonedroid.com.calmemo.utility.BitmapUtility;
 import alonedroid.com.calmemo.R;
 import alonedroid.com.calmemo.realm.CmPhoto;
+import alonedroid.com.calmemo.utility.BitmapUtility;
 import alonedroid.com.calmemo.utility.CmPhotoPreserver;
-import hugo.weaving.DebugLog;
 import io.realm.Realm;
 
 public class CmCameraActivity extends ActionBarActivity {
@@ -46,7 +45,6 @@ public class CmCameraActivity extends ActionBarActivity {
         finish();
     }
 
-    @DebugLog
     public void savePhotoRealm(Bitmap bitmap, String date, String time) {
         Realm realm = Realm.getInstance(this, getString(R.string.realm_instance));
         realm.beginTransaction();

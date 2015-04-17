@@ -11,7 +11,6 @@ import org.androidannotations.annotations.Extra;
 
 import alonedroid.com.calmemo.CmApplication;
 import alonedroid.com.calmemo.R;
-import hugo.weaving.DebugLog;
 
 @EActivity(R.layout.activity_cm_photographs)
 public class CmPhotographsActivity extends ActionBarActivity {
@@ -31,8 +30,7 @@ public class CmPhotographsActivity extends ActionBarActivity {
         transaction.commit();
     }
 
-    @DebugLog
-    public static Intent getIntent(String key, String image) {
+    public static Intent newIntent(String key, String image) {
         CmPhotographsActivity_.IntentBuilder_ builder_ = CmPhotographsActivity_.intent(CmApplication.getContext());
         builder_.argDisplayImageKey(key);
         builder_.argDisplayImageString(image);
