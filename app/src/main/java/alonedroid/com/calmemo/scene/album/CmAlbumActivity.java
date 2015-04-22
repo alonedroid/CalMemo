@@ -30,4 +30,10 @@ public class CmAlbumActivity extends ActionBarActivity {
         builder_.argDisplayDate(date);
         return builder_.get();
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.in_left, R.anim.out_right);
+    }
 }

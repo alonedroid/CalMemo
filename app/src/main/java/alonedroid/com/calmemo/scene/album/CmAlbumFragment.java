@@ -2,9 +2,11 @@ package alonedroid.com.calmemo.scene.album;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.view.View;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 
@@ -16,7 +18,7 @@ import alonedroid.com.calmemo.realm.CmPhoto;
 import alonedroid.com.calmemo.realm.RealmAccessor;
 import alonedroid.com.calmemo.scene.photographs.CmPhotographsActivity;
 
-@EFragment(R.layout.fragment_album)
+@EFragment(R.layout.fragment_cm_album)
 public class CmAlbumFragment extends Fragment {
 
     @FragmentArg
@@ -56,5 +58,10 @@ public class CmAlbumFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         // TODO 一覧が変更されていれば更新する
+    }
+
+    @Click
+    void albumCalendarIcon(View v) {
+        getActivity().finish();
     }
 }

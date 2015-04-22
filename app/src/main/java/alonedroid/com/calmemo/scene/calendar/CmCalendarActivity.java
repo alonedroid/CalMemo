@@ -26,4 +26,10 @@ public class CmCalendarActivity extends ActionBarActivity {
         CmCalendarActivity_.IntentBuilder_ builder_ = CmCalendarActivity_.intent(CmApplication.getContext());
         return builder_.get();
     }
+
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+        overridePendingTransition(R.anim.in_right, R.anim.out_left);
+    }
 }

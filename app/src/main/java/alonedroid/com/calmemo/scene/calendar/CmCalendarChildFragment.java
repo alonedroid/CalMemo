@@ -136,7 +136,7 @@ public class CmCalendarChildFragment extends Fragment {
 
         String argDate = getYmd(dateView.getDate());
         Intent intent = CmAlbumActivity.newIntent(argDate);
-        startActivity(intent);
+        getActivity().startActivity(intent);
     }
 
     private String getYmd(String date) {
