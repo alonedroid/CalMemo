@@ -33,7 +33,7 @@
             android:orientation="horizontal"
             android:background="@color/white"
             />
-        </LinearLayout>
+    </LinearLayout>
     <android.support.v4.view.ViewPager
         android:id="@+id/cm_calendar_pager"
         android:layout_width="match_parent"
