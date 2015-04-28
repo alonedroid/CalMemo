@@ -66,6 +66,12 @@ public class CmDateView extends FrameLayout {
         this.dateImageView.setImageBitmap(image);
     }
 
+    public void reset() {
+        this.hasImage = false;
+        this.dateTextView.setTextColor(getResources().getColor(R.color.cm_text_color));
+        this.dateImageView.setImageBitmap(null);
+    }
+
     public boolean hasImage() {
         return this.hasImage;
     }

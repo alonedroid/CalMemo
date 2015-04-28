@@ -1,0 +1,51 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cm_dialog_root"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    tools:context="alonedroid.com.calmemo.fragment.CmDialogFragment"
+    >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/thin_black"
+        >
+
+        <TextView
+            android:id="@+id/cm_dialog_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen_space_24dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            />
+
+        <TextView
+            android:id="@+id/cm_dialog_yes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_background_dialog_button"
+            android:padding="@dimen/dimen_space_16dp"
+            android:text="@string/dialog_yes"
+            android:layout_marginRight="@dimen/dimen_space_8dp"
+            android:layout_below="@id/cm_dialog_message"
+            android:layout_alignParentLeft="true"
+            android:layout_centerHorizontal="true"
+            />
+
+        <TextView
+            android:id="@+id/cm_dialog_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_background_dialog_button"
+            android:padding="@dimen/dimen_space_16dp"
+            android:text="@string/dialog_no"
+            android:layout_marginLeft="@dimen/dimen_space_8dp"
+            android:layout_below="@id/cm_dialog_message"
+            android:layout_alignParentRight="true"
+            android:layout_centerHorizontal="true"
+            />
+    </RelativeLayout>
+</RelativeLayout>

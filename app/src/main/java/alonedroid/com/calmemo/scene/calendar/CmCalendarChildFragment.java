@@ -1,5 +1,6 @@
 package alonedroid.com.calmemo.scene.calendar;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -13,6 +14,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.DimensionPixelSizeRes;
 import org.androidannotations.annotations.res.IntegerRes;
@@ -32,6 +34,8 @@ import alonedroid.com.calmemo.view.CmDateView;
 
 @EFragment(R.layout.fragment_cm_calendar_child)
 public class CmCalendarChildFragment extends Fragment {
+
+    private static final int REQUEST_CODE = 1001;
 
     @Bean
     ViewFactory factory;
@@ -67,6 +71,8 @@ public class CmCalendarChildFragment extends Fragment {
 
     private List<CmPhoto> photoList;
 
+    private CmDateView clickedView;
+
     @AfterInject
     void onAfterInject() {
         this.calendarUtility.resetBase(this.argDisplayYear, this.argDisplayMonth);
@@ -76,10 +82,6 @@ public class CmCalendarChildFragment extends Fragment {
 
     @AfterViews
     void onAfterViews() {
-        initCalendar();
-    }
-
-    private void initCalendar() {
         final int firstPos = this.calendarUtility.getFirstDayOfWeek() - 1;
         final int last = this.calendarUtility.getLastDayOfMonth();
         int date = 1;
@@ -136,7 +138,8 @@ public class CmCalendarChildFragment extends Fragment {
 
         String argDate = getYmd(dateView.getDate());
         Intent intent = CmAlbumActivity.newIntent(argDate);
-        getActivity().startActivity(intent);
+        startActivityForResult(intent, REQUEST_CODE);
+        this.clickedView = dateView;
     }
 
     private String getYmd(String date) {
@@ -148,6 +151,12 @@ public class CmCalendarChildFragment extends Fragment {
         builder_.argDisplayYear(displayYear);
         builder_.argDisplayMonth(displayMonth);
         return builder_.build();
+    }
+
+    @OnActivityResult(REQUEST_CODE)
+    void resultAlbum(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) return;
+        this.clickedView.reset();
     }
 
     @Override

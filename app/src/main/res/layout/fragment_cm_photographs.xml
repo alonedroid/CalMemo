@@ -1,10 +1,64 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="alonedroid.com.calmemo.scene.photographs.CmPhotographsFragment_"
     >
+
+    <RelativeLayout
+        android:id="@+id/cm_photographs_title"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:paddingLeft="@dimen/dimen_space_8dp"
+        android:paddingRight="@dimen/dimen_space_8dp"
+        android:background="@color/grey_1"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="42.5dp"
+            android:gravity="center|center"
+            android:text="@string/cm_photographs_title"
+            android:layout_alignParentTop="true"
+            />
+
+        <ImageView
+            android:id="@+id/cm_photographs_back_view"
+            android:layout_width="42.5dp"
+            android:layout_height="42.5dp"
+            android:src="@drawable/abc_ic_ab_back_mtrl_am_alpha"
+            android:tint="@color/cm_text_sunday_color"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:contentDescription="@string/desc_page_back"
+            />
+
+        <ImageView
+            android:id="@+id/cm_photographs_delete_view"
+            android:layout_width="42.5dp"
+            android:layout_height="42.5dp"
+            android:src="@drawable/ic_delete"
+            android:tint="@color/cm_text_saturday_color"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:contentDescription="@string/desc_delete_image"
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_line"
+        android:layout_below="@id/cm_photographs_title"
+        android:background="@color/cm_text_color"
+        />
+
     <ImageView
         android:id="@+id/cm_photographs_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    </RelativeLayout>
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:contentDescription="@string/desc_main_image"
+        />
+</RelativeLayout>

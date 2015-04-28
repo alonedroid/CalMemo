@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- アプリケーション -->
     <string name="app_name">CalMemo</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_cm_calendar">CmCalendarActivity</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <!-- 画面タイトル -->
-    <string name="cm_calendar_title">カレンダー</string>
+    <string name="cm_calendar_title">アルバム</string>
+    <string name="cm_photographs_title">フォト</string>
     <!-- カレンダー機能用 -->
     <string name="arg_display_year">argDisplayYear</string>
     <string name="arg_display_month">argDisplayMonth</string>
@@ -28,5 +25,13 @@
     <string name="title_activity_cm_camera">CmCameraActivity</string>
     <string name="title_activity_album">AlbumActivity</string>
     <string name="title_activity_cm_photographs">CmPhotographsActivity</string>
+    <string name="desc_page_back">page back</string>
+    <string name="desc_delete_image">delete image</string>
+    <string name="desc_main_image">main image</string>
+    <string name="dialog_yes">YES</string>
+    <string name="dialog_no">NO</string>
+    <string name="dialog_message">本当に削除しますか？</string>
+    <string name="dialog_positive">OK</string>
+    <string name="dialog_negative">Cancel</string>
 
 </resources>

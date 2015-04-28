@@ -1,39 +1,61 @@
 <LinearLayout
-    android:id="@+id/cm_calendar_root"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cm_calendar_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/cm_text_color"
+    android:background="@color/white"
     tools:context="alonedroid.com.calmemo.scene.calendar.CmCalendarFragment"
     >
-    <LinearLayout
+
+    <RelativeLayout
         android:id="@+id/cm_calendar_title"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:paddingLeft="0.5dp"
-        android:paddingRight="0.5dp"
-        android:orientation="vertical"
-        android:background="@color/white"
+        android:layout_height="85dp"
+        android:paddingLeft="@dimen/dimen_space_8dp"
+        android:paddingRight="@dimen/dimen_space_8dp"
+        android:background="@color/grey_1"
         >
+
         <TextView
             android:id="@+id/cm_calendar_ym_view"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="42.5dp"
             android:gravity="center|center"
-            android:layout_weight="1"
+            android:text="@string/cm_calendar_title"
+            android:layout_alignParentTop="true"
             />
+
+        <ImageView
+            android:id="@+id/album_import_icon"
+            android:layout_width="42.5dp"
+            android:layout_height="42.5dp"
+            android:src="@drawable/ic_file_download"
+            android:tint="@color/cm_text_saturday_color"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            />
+
+        <ImageView
+            android:id="@+id/album_hint_icon"
+            android:layout_width="42.5dp"
+            android:layout_height="42.5dp"
+            android:src="@drawable/ic_help"
+            android:tint="@color/cm_text_sunday_color"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            />
+
         <LinearLayout
             android:id="@+id/cm_calendar_day_of_week_view"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="42.5dp"
             android:orientation="horizontal"
-            android:background="@color/white"
+            android:layout_alignParentBottom="true"
             />
-    </LinearLayout>
+    </RelativeLayout>
+
     <android.support.v4.view.ViewPager
         android:id="@+id/cm_calendar_pager"
         android:layout_width="match_parent"

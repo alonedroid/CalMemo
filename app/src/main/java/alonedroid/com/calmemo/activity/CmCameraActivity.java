@@ -2,9 +2,15 @@ package alonedroid.com.calmemo.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
+
+import org.androidannotations.annotations.AfterInject;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OnActivityResult;
+import org.androidannotations.annotations.res.DimensionPixelSizeRes;
+import org.androidannotations.annotations.res.IntegerRes;
 
 import java.io.IOException;
 
@@ -14,35 +20,44 @@ import alonedroid.com.calmemo.utility.BitmapUtility;
 import alonedroid.com.calmemo.utility.CmPhotoPreserver;
 import io.realm.Realm;
 
+@EActivity(R.layout.activity_cm_camera)
 public class CmCameraActivity extends ActionBarActivity {
+
     private static final int REQUEST_CODE = 1001;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cm_camera);
+    @IntegerRes
+    int saveImageLength;
 
+    @Bean
+    CmPhotoPreserver preserver;
+
+    @AfterInject
+    void onAfterInject() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, this.preserver.preparedContentPng());
         startActivityForResult(intent, REQUEST_CODE);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data == null || requestCode != REQUEST_CODE) {
-            return;
+    @OnActivityResult(REQUEST_CODE)
+    void resultCameraActivity(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_CANCELED) {
+            this.preserver.destructContent();
+        } else {
+            savePhoto();
         }
 
-        try {
-            Bitmap b = (Bitmap) data.getExtras().get("data");
-            CmPhotoPreserver provider = new CmPhotoPreserver(b);
-            provider.saveBitmap_png();
-            savePhotoRealm(b, provider.getFileNameDate(), provider.getFileNameTime());
+        finish();
+    }
 
-            b.recycle();
+    private void savePhoto() {
+        try {
+            Bitmap bitmap = BitmapUtility.resize(this.preserver.getImageUri(), this.saveImageLength, this.saveImageLength);
+            this.preserver.init(bitmap);
+            savePhotoRealm(bitmap, this.preserver.getFileNameDate(), this.preserver.getFileNameTime());
+            bitmap.recycle();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        finish();
     }
 
     public void savePhotoRealm(Bitmap bitmap, String date, String time) {

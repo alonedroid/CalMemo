@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="prefix_png">.png</string>
+    <string name="mimetype_png">image/png</string>
+    <string name="prefix_jpg">.jpg</string>
+    <string name="mimetype_jpg">image/jpeg</string>
+</resources>

@@ -54,6 +54,12 @@ public class RealmAccessor {
         return null;
     }
 
+    public void deleteCmPhoto(CmPhoto photo){
+        this.realm.beginTransaction();
+        photo.removeFromRealm();
+        this.realm.commitTransaction();
+    }
+
     public void close() {
         this.realm.close();
     }

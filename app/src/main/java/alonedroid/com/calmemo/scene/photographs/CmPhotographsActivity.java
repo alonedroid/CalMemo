@@ -1,8 +1,8 @@
 package alonedroid.com.calmemo.scene.photographs;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 
 import org.androidannotations.annotations.AfterViews;
@@ -23,7 +23,7 @@ public class CmPhotographsActivity extends ActionBarActivity {
 
     @AfterViews
     void onAfterViews() {
-        FragmentManager manager = getSupportFragmentManager();
+        FragmentManager manager = getFragmentManager();
         CmPhotographsFragment fragment = CmPhotographsFragment_.newInstance(this.argDisplayImageKey, this.argDisplayImageString);
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.activity_cm_photographs, fragment);

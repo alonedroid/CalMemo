@@ -22,7 +22,7 @@
         <activity android:name=".scene.calendar.CmCalendarActivity_"/>
         <activity android:name=".scene.photographs.CmPhotographsActivity_"/>
         <activity
-            android:name=".activity.CmCameraActivity"
+            android:name=".activity.CmCameraActivity_"
             android:theme="@style/AppTheme.Translucent"/>
 
         <receiver android:name=".widget.CmWidgetProvider">

@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.graphics.Point;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.EApplication;
@@ -15,9 +16,11 @@ public class CmApplication extends Application {
     @SystemService
     WindowManager windowManager;
 
-    private static Context mContext;
-    private static int mDisplayWidth;
-    private static int mDisplayHeight;
+    private static Context context;
+
+    public static int displayWidth;
+
+    public static int displayHeight;
 
     @AfterInject
     void onAfterInject() {
@@ -27,28 +30,32 @@ public class CmApplication extends Application {
 
     private void initDisplaySize() {
         Point size = new Point();
-        windowManager.getDefaultDisplay().getSize(size);
-        CmApplication.mDisplayWidth = size.x;
-        CmApplication.mDisplayHeight = size.y;
+        this.windowManager.getDefaultDisplay().getSize(size);
+        CmApplication.displayWidth = size.x;
+        CmApplication.displayHeight = size.y;
     }
 
     private void setInitParameter() {
-        CmApplication.mContext = getApplicationContext();
+        CmApplication.context = getApplicationContext();
     }
 
     public static Context getContext() {
-        return CmApplication.mContext;
+        return CmApplication.context;
     }
 
     public static String getResourceString(int resourceId) {
-        return CmApplication.mContext.getString(resourceId);
+        return CmApplication.context.getString(resourceId);
     }
 
     public static int divideDisplayWidth(int part) {
-        return CmApplication.mDisplayWidth / part;
+        return CmApplication.displayWidth / part;
     }
 
     public static int divideDisplayHeight(int part) {
-        return CmApplication.mDisplayHeight / part;
+        return CmApplication.displayHeight / part;
+    }
+
+    public static void show(String message) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 }

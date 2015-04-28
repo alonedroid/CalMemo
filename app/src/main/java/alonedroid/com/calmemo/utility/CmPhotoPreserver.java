@@ -1,7 +1,15 @@
 package alonedroid.com.calmemo.utility;
 
+import android.content.ContentValues;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.annotation.StringRes;
+
+import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.RootContext;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -12,45 +20,70 @@ import java.util.Date;
 
 import alonedroid.com.calmemo.CmApplication;
 import alonedroid.com.calmemo.R;
+import lombok.Getter;
 
+@EBean
 public class CmPhotoPreserver {
-    private static final String PREFIX_PNG = ".png";
-    private static final String PREFIX_JPG = ".jpg";
-    private static final String MIMETYPE_JPG = "jpeg";
 
-    private String mFolderPath;
-    private String mFileName;
+    @RootContext
+    Context context;
 
-    private String mFileNameDate;
-    private String mFileNameTime;
+    @StringRes
+    String prefixPng;
 
-    private Bitmap mBitmap;
+    @StringRes
+    String prefixJpg;
 
-    public CmPhotoPreserver(Bitmap bitmap) {
-        this.mBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+    @StringRes
+    String mimetypeJpg;
+
+    @StringRes
+    String mimetypePng;
+
+    @Getter
+    private Uri imageUri;
+
+    @Getter
+    private String fileNameDate;
+
+    @Getter
+    private String fileNameTime;
+
+    private Bitmap bitmap;
+
+    private String folderPath;
+
+    private String fileName;
+
+    private String fileNamePng;
+
+    private String fileNameJpg;
+
+    public void init(Bitmap bitmap) {
+        this.bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         makeSaveFolder();
         generateFileName();
     }
 
-    public void saveBitmap_png() throws IOException {
-        saveBitmap(PREFIX_PNG, Bitmap.CompressFormat.PNG);
+    public void saveBitmapPng() throws IOException {
+        saveBitmap(this.prefixPng, Bitmap.CompressFormat.PNG);
     }
 
-    public void saveBitmap_jpg() throws IOException {
-        saveBitmap(PREFIX_JPG, Bitmap.CompressFormat.JPEG);
+    public void saveBitmapJpg() throws IOException {
+        saveBitmap(this.prefixJpg, Bitmap.CompressFormat.JPEG);
     }
 
     private void saveBitmap(String prefix, Bitmap.CompressFormat file_type) throws IOException {
-        if (this.mBitmap.isRecycled()) {
+        if (this.bitmap.isRecycled()) {
             return;
         }
 
-        File file = new File(this.mFolderPath, this.mFileName + prefix);
+        File file = new File(this.folderPath, this.fileName + prefix);
         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
-        this.mBitmap.compress(file_type, 100, bos);
+        this.bitmap.compress(file_type, 100, bos);
         bos.close();
 
-        this.mBitmap.recycle();
+        this.bitmap.recycle();
     }
 
     private void makeSaveFolder() {
@@ -60,21 +93,29 @@ public class CmPhotoPreserver {
             file.mkdir();
         }
 
-        this.mFolderPath = file.getAbsolutePath();
+        this.folderPath = file.getAbsolutePath();
     }
 
     private void generateFileName() {
         Date date = new Date();
-        this.mFileNameDate = new SimpleDateFormat("yyyyMMdd").format(date);
-        this.mFileNameTime = new SimpleDateFormat("HHmmss").format(date);
-        this.mFileName = this.mFileNameDate + "_" + this.mFileNameTime;
+        this.fileNameDate = new SimpleDateFormat("yyyyMMdd").format(date);
+        this.fileNameTime = new SimpleDateFormat("HHmmss").format(date);
+        this.fileName = this.fileNameDate + "_" + this.fileNameTime;
+        this.fileNamePng = this.fileName + this.prefixPng;
+        this.fileNameJpg = this.fileName + this.prefixJpg;
     }
 
-    public String getFileNameDate() {
-        return this.mFileNameDate;
+    public Uri preparedContentPng() {
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, this.fileNamePng);
+        values.put(MediaStore.Images.Media.MIME_TYPE, this.mimetypePng);
+        this.imageUri = this.context.getContentResolver()
+                .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        return this.imageUri;
     }
 
-    public String getFileNameTime() {
-        return this.mFileNameTime;
+    public void destructContent(){
+        this.context.getContentResolver()
+                .delete(this.imageUri, null, null);
     }
 }

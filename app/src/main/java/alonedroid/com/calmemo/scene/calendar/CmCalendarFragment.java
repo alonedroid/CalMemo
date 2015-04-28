@@ -4,6 +4,7 @@ package alonedroid.com.calmemo.scene.calendar;
 import android.app.Fragment;
 import android.content.res.TypedArray;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.DimensionPixelSizeRes;
@@ -128,6 +130,16 @@ public class CmCalendarFragment extends Fragment {
         int height = FrameLayout.LayoutParams.MATCH_PARENT;
 
         return this.factory.newCmDateView(date, color, null, width, height, this.dimenFrame);
+    }
+
+    @Click
+    void albumImportIcon(View view) {
+        CmApplication.show("import");
+    }
+
+    @Click
+    void albumHintIcon(View view) {
+        CmApplication.show("hint");
     }
 
     public static CmCalendarFragment newInstance() {

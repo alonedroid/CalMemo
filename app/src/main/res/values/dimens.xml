@@ -12,4 +12,5 @@
     <dimen name="dimen_space_88dp">88dp</dimen>
     <dimen name="dimen_zpos_s">88dp</dimen>
     <dimen name="dimen_frame">1dp</dimen>
+    <dimen name="dimen_line">0.5dp</dimen>
 </resources>

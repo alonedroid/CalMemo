@@ -13,6 +13,7 @@ import org.androidannotations.annotations.RootContext;
 
 import alonedroid.com.calmemo.utility.BitmapUtility;
 import alonedroid.com.calmemo.view.CmDateView;
+import alonedroid.com.calmemo.view.CmImageView;
 
 @EBean
 public class ViewFactory {
@@ -35,8 +36,8 @@ public class ViewFactory {
         return linear;
     }
 
-    public ImageView newImageView(String src, int width, int height) {
-        ImageView image = new ImageView(this.context);
+    public CmImageView newImageView(String src, int width, int height) {
+        CmImageView image = new CmImageView(this.context);
         setLayoutParams(image, width, height);
         image.setImageBitmap(BitmapUtility.decodeBitmapString(src));
         image.setScaleType(ImageView.ScaleType.CENTER_CROP);

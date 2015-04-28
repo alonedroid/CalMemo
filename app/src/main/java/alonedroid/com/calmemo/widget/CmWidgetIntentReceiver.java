@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import alonedroid.com.calmemo.R;
-import alonedroid.com.calmemo.activity.CmCameraActivity;
+import alonedroid.com.calmemo.activity.CmCameraActivity_;
 
 public class CmWidgetIntentReceiver extends BroadcastReceiver {
 
@@ -13,7 +13,7 @@ public class CmWidgetIntentReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals(context.getString(R.string.cm_widget_receive_action))) {
 
-            Intent camera_intent = new Intent(context, CmCameraActivity.class);
+            Intent camera_intent = new Intent(context, CmCameraActivity_.class);
             camera_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(camera_intent);
         }
