@@ -1,5 +1,7 @@
 package alonedroid.com.calmemo.realm;
 
+import android.graphics.Bitmap;
+
 import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.res.StringRes;
@@ -7,6 +9,7 @@ import org.androidannotations.annotations.res.StringRes;
 import java.util.List;
 
 import alonedroid.com.calmemo.CmApplication;
+import alonedroid.com.calmemo.utility.BitmapUtility;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -20,6 +23,21 @@ public class RealmAccessor {
     String realmInstance;
 
     Realm realm;
+
+    public void savePhotoRealm(Bitmap bitmap, String date, String time) {
+        CmApplication.log(date);
+        
+        this.realm = Realm.getInstance(this.app, this.realmInstance);
+        realm.beginTransaction();
+
+        CmPhoto photo = realm.createObject(CmPhoto.class);
+        photo.setCmDate(date);
+        photo.setCmTime(time);
+        photo.setCmPhoto(BitmapUtility.decodeBitmap(bitmap));
+        photo.setCmAction("");
+
+        realm.commitTransaction();
+    }
 
     public List<CmPhoto> getPhotosByDate(String date) {
         this.realm = Realm.getInstance(this.app, this.realmInstance);
@@ -54,7 +72,7 @@ public class RealmAccessor {
         return null;
     }
 
-    public void deleteCmPhoto(CmPhoto photo){
+    public void deleteCmPhoto(CmPhoto photo) {
         this.realm.beginTransaction();
         photo.removeFromRealm();
         this.realm.commitTransaction();

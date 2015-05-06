@@ -69,6 +69,7 @@ public class CmAlbumFragment extends Fragment {
     private void OnImageClickedListener(int index, CmPhoto bean) {
         Intent intent = CmPhotographsActivity.newIntent(bean.getCmDateTime().toString(), bean.getCmPhoto());
         startActivityForResult(intent, REQUEST_CODE);
+        ((CmAlbumActivity) getActivity()).setActivityAnimation();
         this.photo = bean;
         this.photoIndex = index;
     }

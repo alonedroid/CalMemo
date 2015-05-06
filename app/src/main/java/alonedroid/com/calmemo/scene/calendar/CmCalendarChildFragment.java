@@ -111,12 +111,13 @@ public class CmCalendarChildFragment extends Fragment {
     }
 
     private CmDateView generateDateView(int col, String date) {
-        String key = this.argDisplayYear + this.argDisplayMonth + date;
+        String key = this.argDisplayYear + this.argDisplayMonth + this.stringUtility.format00(date);
         Bitmap bitmap = getPhoto(key);
         int color = this.dateColors.getColor(col % 7, 1);
         int width = CmApplication.divideDisplayWidth(this.displayCol);
         int height = FrameLayout.LayoutParams.MATCH_PARENT;
 
+        CmApplication.log(key);
         return this.factory.newCmDateView(date, color, bitmap, width, height, this.dimenFrame);
     }
 
@@ -139,6 +140,7 @@ public class CmCalendarChildFragment extends Fragment {
         String argDate = getYmd(dateView.getDate());
         Intent intent = CmAlbumActivity.newIntent(argDate);
         startActivityForResult(intent, REQUEST_CODE);
+        ((CmCalendarActivity) getActivity()).setActivityAnimation();
         this.clickedView = dateView;
     }
 

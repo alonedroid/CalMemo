@@ -3,6 +3,7 @@ package alonedroid.com.calmemo;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Point;
+import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -57,5 +58,11 @@ public class CmApplication extends Application {
 
     public static void show(String message) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+    }
+
+    public static void log(String... params) {
+        for (String param : params) {
+            Log.d(CmApplication.class.getSimpleName(), param);
+        }
     }
 }

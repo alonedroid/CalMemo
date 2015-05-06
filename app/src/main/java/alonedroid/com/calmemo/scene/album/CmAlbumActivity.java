@@ -31,6 +31,10 @@ public class CmAlbumActivity extends ActionBarActivity {
         return builder_.get();
     }
 
+    public void setActivityAnimation() {
+        overridePendingTransition(R.anim.in_right, R.anim.out_left);
+    }
+
     @Override
     public void finish() {
         super.finish();

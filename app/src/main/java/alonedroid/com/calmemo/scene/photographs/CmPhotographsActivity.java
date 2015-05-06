@@ -36,4 +36,10 @@ public class CmPhotographsActivity extends ActionBarActivity {
         builder_.argDisplayImageString(image);
         return builder_.get();
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.in_left, R.anim.out_right);
+    }
 }

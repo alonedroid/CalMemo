@@ -75,6 +75,7 @@ public class ImageListFragment extends Fragment {
         int row = index / DIVIDE_WIDTH_PART;
         int col = index % DIVIDE_WIDTH_PART;
         ((CmImageView) ((LinearLayout) this.fragmentImageList.getChildAt(row)).getChildAt(col)).showDeleteMark();
+        ((LinearLayout) this.fragmentImageList.getChildAt(row)).getChildAt(col).setOnClickListener(null);
         this.leftPhotoNum--;
     }
 
