@@ -18,7 +18,7 @@ import alonedroid.com.calmemo.realm.RealmAccessor;
 import alonedroid.com.calmemo.utility.BitmapUtility;
 import alonedroid.com.calmemo.utility.CmPhotoPreserver;
 
-@EActivity(R.layout.activity_cm_camera)
+@EActivity(R.layout.activity_main)
 public class CmCameraActivity extends ActionBarActivity {
 
     private static final int REQUEST_CODE = 1001;

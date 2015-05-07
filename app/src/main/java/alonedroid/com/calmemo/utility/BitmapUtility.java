@@ -2,6 +2,7 @@ package alonedroid.com.calmemo.utility;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.util.Base64;
 
@@ -12,6 +13,10 @@ import java.io.InputStream;
 import alonedroid.com.calmemo.CmApplication;
 
 public class BitmapUtility {
+
+    public static int GPS_LATITUDE = 0;
+
+    public static int GPS_LONGITUDE = 1;
 
     public static String decodeBitmap(Bitmap bitmap) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -95,5 +100,27 @@ public class BitmapUtility {
             n *= 2;
         }
         return (int) n;
+    }
+
+    public static String[] getGPS(String filePath) {
+        String[] gps = new String[2];
+        try {
+            ExifInterface exifInterface = new ExifInterface(filePath);
+            gps[GPS_LATITUDE] = exifInterface.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
+            gps[GPS_LONGITUDE] = exifInterface.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
+        } catch (IOException e) {
+            return gps;
+        }
+
+        return gps;
+    }
+
+    public static String getDatetime(String filePath) {
+        try {
+            ExifInterface exifInterface = new ExifInterface(filePath);
+            return exifInterface.getAttribute(ExifInterface.TAG_DATETIME);
+        } catch (IOException e) {
+            return null;
+        }
     }
 }

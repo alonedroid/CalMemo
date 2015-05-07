@@ -19,6 +19,7 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.DimensionPixelSizeRes;
 import org.androidannotations.annotations.res.IntegerRes;
 
+import java.text.ParseException;
 import java.util.List;
 
 import alonedroid.com.calmemo.CmApplication;
@@ -73,6 +74,13 @@ public class CmCalendarChildFragment extends Fragment {
 
     private CmDateView clickedView;
 
+    public static CmCalendarChildFragment newInstance(String displayYear, String displayMonth) {
+        CmCalendarChildFragment_.FragmentBuilder_ builder_ = CmCalendarChildFragment_.builder();
+        builder_.argDisplayYear(displayYear);
+        builder_.argDisplayMonth(displayMonth);
+        return builder_.build();
+    }
+
     @AfterInject
     void onAfterInject() {
         this.calendarUtility.resetBase(this.argDisplayYear, this.argDisplayMonth);
@@ -111,13 +119,11 @@ public class CmCalendarChildFragment extends Fragment {
     }
 
     private CmDateView generateDateView(int col, String date) {
-        String key = this.argDisplayYear + this.argDisplayMonth + this.stringUtility.format00(date);
-        Bitmap bitmap = getPhoto(key);
+        Bitmap bitmap = getPhoto(getYmd(date));
         int color = this.dateColors.getColor(col % 7, 1);
         int width = CmApplication.divideDisplayWidth(this.displayCol);
         int height = FrameLayout.LayoutParams.MATCH_PARENT;
 
-        CmApplication.log(key);
         return this.factory.newCmDateView(date, color, bitmap, width, height, this.dimenFrame);
     }
 
@@ -144,15 +150,24 @@ public class CmCalendarChildFragment extends Fragment {
         this.clickedView = dateView;
     }
 
-    private String getYmd(String date) {
-        return this.argDisplayYear + this.argDisplayMonth + stringUtility.format00(date);
+    private String getYmd(String day) {
+        return this.argDisplayYear + this.argDisplayMonth + stringUtility.format00(day);
     }
 
-    public static CmCalendarChildFragment newInstance(String displayYear, String displayMonth) {
-        CmCalendarChildFragment_.FragmentBuilder_ builder_ = CmCalendarChildFragment_.builder();
-        builder_.argDisplayYear(displayYear);
-        builder_.argDisplayMonth(displayMonth);
-        return builder_.build();
+    public void update(String date) throws ParseException {
+        CalendarUtility util = this.calendarUtility.newInstance(date);
+        String day = util.getDD();
+        int firstPosition = this.calendarUtility.getFirstDayOfWeek() - 1;
+        int viewPosition = firstPosition + toInt(day) - 1;
+        int row = viewPosition / this.displayCol + 1;
+        int col = viewPosition % this.displayCol;
+        CmDateView view = ((CmDateView) findViewByIndex(row).getChildAt(col));
+        view.setDateImage(getPhoto(date));
+//        view.setOnClickListener(this::onClickListener);
+    }
+
+    private int toInt(String str) {
+        return Integer.parseInt(str);
     }
 
     @OnActivityResult(REQUEST_CODE)

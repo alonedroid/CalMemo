@@ -4,4 +4,8 @@
     <string name="mimetype_png">image/png</string>
     <string name="prefix_jpg">.jpg</string>
     <string name="mimetype_jpg">image/jpeg</string>
+    <string name="result_date">resultDate</string>
+    <string name="cm_year">yyyy</string>
+    <string name="cm_month">MM</string>
+    <string name="cm_day">dd</string>
 </resources>

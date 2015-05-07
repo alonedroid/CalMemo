@@ -19,6 +19,10 @@ public class CmPhoto extends RealmObject implements Serializable {
     public static final String CM_PHOTO = "cmPhoto";
     @Ignore
     public static final String CM_ACTION = "cmAction";
+    @Ignore
+    public static final String CM_DATE_FORMAT = "yyyyMMdd";
+    @Ignore
+    public static final String CM_TIME_FORMAT = "HHmmss";
 
     private Date cmDateTime;
     private String cmDate;

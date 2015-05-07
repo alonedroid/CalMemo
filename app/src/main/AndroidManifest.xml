@@ -21,6 +21,7 @@
         <activity android:name=".scene.album.CmAlbumActivity_"/>
         <activity android:name=".scene.calendar.CmCalendarActivity_"/>
         <activity android:name=".scene.photographs.CmPhotographsActivity_"/>
+        <activity android:name=".activity.CmGalleryActivity_"/>
         <activity
             android:name=".activity.CmCameraActivity_"
             android:theme="@style/AppTheme.Translucent"/>

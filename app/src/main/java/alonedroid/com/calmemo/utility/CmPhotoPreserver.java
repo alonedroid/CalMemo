@@ -20,6 +20,7 @@ import java.util.Date;
 
 import alonedroid.com.calmemo.CmApplication;
 import alonedroid.com.calmemo.R;
+import alonedroid.com.calmemo.realm.CmPhoto;
 import lombok.Getter;
 
 @EBean
@@ -98,8 +99,8 @@ public class CmPhotoPreserver {
 
     private void generateFileName() {
         Date date = new Date();
-        this.fileNameDate = new SimpleDateFormat("yyyyMMdd").format(date);
-        this.fileNameTime = new SimpleDateFormat("HHmmss").format(date);
+        this.fileNameDate = new SimpleDateFormat(CmPhoto.CM_DATE_FORMAT).format(date);
+        this.fileNameTime = new SimpleDateFormat(CmPhoto.CM_TIME_FORMAT).format(date);
         this.fileName = this.fileNameDate + "_" + this.fileNameTime;
         this.fileNamePng = this.fileName + this.prefixPng;
         this.fileNameJpg = this.fileName + this.prefixJpg;
@@ -114,7 +115,7 @@ public class CmPhotoPreserver {
         return this.imageUri;
     }
 
-    public void destructContent(){
+    public void destructContent() {
         this.context.getContentResolver()
                 .delete(this.imageUri, null, null);
     }

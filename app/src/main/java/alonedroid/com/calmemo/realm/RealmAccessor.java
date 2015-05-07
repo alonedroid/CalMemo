@@ -26,7 +26,7 @@ public class RealmAccessor {
 
     public void savePhotoRealm(Bitmap bitmap, String date, String time) {
         CmApplication.log(date);
-        
+
         this.realm = Realm.getInstance(this.app, this.realmInstance);
         realm.beginTransaction();
 
@@ -79,6 +79,8 @@ public class RealmAccessor {
     }
 
     public void close() {
+        if (this.realm == null) return;
         this.realm.close();
+        this.realm = null;
     }
 }

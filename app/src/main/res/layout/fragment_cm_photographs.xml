@@ -48,6 +48,7 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/cm_photographs_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_line"
         android:layout_below="@id/cm_photographs_title"
@@ -59,6 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
+        android:layout_below="@id/cm_photographs_bar"
         android:contentDescription="@string/desc_main_image"
         />
 </RelativeLayout>

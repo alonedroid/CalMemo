@@ -1,7 +1,9 @@
 package alonedroid.com.calmemo.scene.calendar;
 
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -14,25 +16,35 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.DimensionPixelSizeRes;
 import org.androidannotations.annotations.res.IntegerRes;
 import org.androidannotations.annotations.res.StringArrayRes;
+import org.androidannotations.annotations.res.StringRes;
+
+import java.text.ParseException;
 
 import alonedroid.com.calmemo.CmApplication;
 import alonedroid.com.calmemo.R;
 import alonedroid.com.calmemo.ViewFactory;
+import alonedroid.com.calmemo.activity.CmGalleryActivity;
 import alonedroid.com.calmemo.utility.CalendarUtility;
 import alonedroid.com.calmemo.view.CmDateView;
 
 @EFragment(R.layout.fragment_cm_calendar)
 public class CmCalendarFragment extends Fragment {
 
+    private static final int REQUEST_CODE = 1001;
+
     @Bean
     ViewFactory factory;
 
     @Bean
     CalendarUtility calendarUtility;
+
+    @StringRes
+    String resultDate;
 
     @IntegerRes
     int displayYears;
@@ -134,12 +146,29 @@ public class CmCalendarFragment extends Fragment {
 
     @Click
     void albumImportIcon(View view) {
-        CmApplication.show("import");
+        startActivityForResult(CmGalleryActivity.newIntent(), REQUEST_CODE);
     }
 
     @Click
     void albumHintIcon(View view) {
         CmApplication.show("hint");
+    }
+
+    @OnActivityResult(REQUEST_CODE)
+    void resultGallery(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) return;
+
+        try {
+            String date = data.getStringExtra(this.resultDate);
+            int diffMonth = this.calendarUtility.compareMonth(date);
+            int absMonth = Math.abs(diffMonth);
+            if (absMonth > 2) return;
+
+            int photoMonth = this.cmCalendarPager.getCurrentItem() + diffMonth;
+            ((CmCalendarChildFragment_) this.adapter.instantiateItem(this.cmCalendarPager, photoMonth)).update(date);
+        } catch (ParseException e) {
+
+        }
     }
 
     public static CmCalendarFragment newInstance() {

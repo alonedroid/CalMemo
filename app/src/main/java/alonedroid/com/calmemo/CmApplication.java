@@ -62,7 +62,8 @@ public class CmApplication extends Application {
 
     public static void log(String... params) {
         for (String param : params) {
-            Log.d(CmApplication.class.getSimpleName(), param);
+            String msg = (param == null) ? "null" : param;
+            Log.d(CmApplication.class.getSimpleName(), msg);
         }
     }
 }
