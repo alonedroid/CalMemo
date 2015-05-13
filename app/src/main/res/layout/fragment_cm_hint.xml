@@ -1,10 +1,11 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context="alonedroid.com.calmemo.scene.photographs.CmPhotographsFragment_"
+    tools:context="alonedroid.com.calmemo.scene.hint.CmHintFragment_"
     >
 
     <RelativeLayout
@@ -14,18 +15,19 @@
         android:paddingLeft="@dimen/dimen_space_8dp"
         android:paddingRight="@dimen/dimen_space_8dp"
         android:background="@color/grey_1"
+        android:layout_alignParentTop="true"
         >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="42.5dp"
             android:gravity="center|center"
-            android:text="@string/cm_photographs_title"
+            android:text="@string/cm_hint_title"
             android:layout_alignParentTop="true"
             />
 
         <ImageView
-            android:id="@+id/cm_photographs_back_view"
+            android:id="@+id/cm_hint_back_view"
             android:layout_width="42.5dp"
             android:layout_height="42.5dp"
             android:src="@drawable/abc_ic_ab_back_mtrl_am_alpha"
@@ -34,21 +36,10 @@
             android:layout_alignParentBottom="true"
             android:contentDescription="@string/desc_page_back"
             />
-
-        <ImageView
-            android:id="@+id/cm_photographs_delete_view"
-            android:layout_width="42.5dp"
-            android:layout_height="42.5dp"
-            android:src="@drawable/ic_delete"
-            android:tint="@color/cm_text_saturday_color"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:contentDescription="@string/desc_delete_image"
-            />
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/cm_photographs_bar"
+        android:id="@+id/cm_hint_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_line"
         android:layout_below="@id/cm_photographs_title"
@@ -56,12 +47,29 @@
         android:orientation="horizontal"
         />
 
-    <ImageView
-        android:id="@+id/cm_photographs_image"
+    <LinearLayout
+        android:id="@+id/cm_hint_ad"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        />
+
+    <ScrollView
+        android:id="@+id/cm_hint_main_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:layout_below="@id/cm_photographs_bar"
+        android:layout_above="@id/cm_hint_ad"
+        android:layout_below="@id/cm_hint_bar"
         android:contentDescription="@string/desc_main_image"
+        />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/ad_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adUnitId="ca-app-pub-3760137741555384/1892368555"
+        ads:adSize="BANNER"
         />
 </RelativeLayout>

@@ -6,6 +6,7 @@
     <!-- 画面タイトル -->
     <string name="cm_calendar_title">アルバム</string>
     <string name="cm_photographs_title">フォト</string>
+    <string name="cm_hint_title">マニュアル</string>
     <!-- カレンダー機能用 -->
     <string name="arg_display_year">argDisplayYear</string>
     <string name="arg_display_month">argDisplayMonth</string>

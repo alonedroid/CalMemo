@@ -29,6 +29,7 @@ import alonedroid.com.calmemo.CmApplication;
 import alonedroid.com.calmemo.R;
 import alonedroid.com.calmemo.ViewFactory;
 import alonedroid.com.calmemo.activity.CmGalleryActivity;
+import alonedroid.com.calmemo.scene.hint.CmHintActivity;
 import alonedroid.com.calmemo.utility.CalendarUtility;
 import alonedroid.com.calmemo.view.CmDateView;
 
@@ -151,7 +152,7 @@ public class CmCalendarFragment extends Fragment {
 
     @Click
     void albumHintIcon(View view) {
-        CmApplication.show("hint");
+        startActivity(CmHintActivity.newIntent());
     }
 
     @OnActivityResult(REQUEST_CODE)

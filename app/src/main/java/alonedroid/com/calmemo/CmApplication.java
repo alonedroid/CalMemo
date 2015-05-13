@@ -11,6 +11,8 @@ import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.EApplication;
 import org.androidannotations.annotations.SystemService;
 
+import java.io.InputStream;
+
 @EApplication
 public class CmApplication extends Application {
 
@@ -54,6 +56,10 @@ public class CmApplication extends Application {
 
     public static int divideDisplayHeight(int part) {
         return CmApplication.displayHeight / part;
+    }
+
+    public static InputStream openRawResource(int raw) {
+        return context.getResources().openRawResource(raw);
     }
 
     public static void show(String message) {
