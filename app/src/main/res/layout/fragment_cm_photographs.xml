@@ -64,4 +64,9 @@
         android:layout_below="@id/cm_photographs_bar"
         android:contentDescription="@string/desc_main_image"
         />
+
+    <fragment
+        android:name="alonedroid.com.calmemo.fragment.CmAdAstaFragment_"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"/>
 </RelativeLayout>

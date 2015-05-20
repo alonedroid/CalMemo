@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="alonedroid.com.calmemo">
+<manifest
+    package="alonedroid.com.calmemo"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -50,6 +51,19 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/cm_widget_provider"/>
         </receiver>
+        <!-- アスタCVRカウント設定 -->
+        <receiver
+            android:name="jp.maru.mrd.CvReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="jp.maru.mrd.ACTION_CV"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="jp.maru.mrd.CvReporter"
+            android:exported="false">
+        </service>
     </application>
 
 </manifest>

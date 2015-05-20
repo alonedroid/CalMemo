@@ -13,6 +13,7 @@ import org.androidannotations.annotations.RootContext;
 
 import alonedroid.com.calmemo.utility.BitmapUtility;
 import alonedroid.com.calmemo.view.CmDateView;
+import alonedroid.com.calmemo.view.CmExpandView;
 import alonedroid.com.calmemo.view.CmImageView;
 
 @EBean
@@ -56,7 +57,15 @@ public class ViewFactory {
         return view;
     }
 
-    public void setLayoutParams(View view, int width, int height) {
+    public CmExpandView newCmExpandView(String title, String description) {
+        CmExpandView view = new CmExpandView(this.context);
+        view.setTitle(title);
+        view.setDescription(description);
+
+        return view;
+    }
+
+    private void setLayoutParams(View view, int width, int height) {
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(width, height);
         view.setLayoutParams(layoutParams);
     }
