@@ -1,0 +1,2 @@
+Realm Java is published under the Apache 2.0 license.
+The underlying core is available under the Realm Core Binary License while we work to open-source it under the Apache 2.0 license.

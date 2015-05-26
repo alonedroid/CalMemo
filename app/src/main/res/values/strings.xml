@@ -36,5 +36,6 @@
     <string name="dialog_negative">Cancel</string>
     <string name="cm_load_image_failed">画像の読み込みに失敗しました。</string>
     <string name="message_failed_datetime">撮影日の取得に失敗しました。本日の日付で登録します。</string>
+    <string name="hint_copyright">ライセンス</string>
 
 </resources>
