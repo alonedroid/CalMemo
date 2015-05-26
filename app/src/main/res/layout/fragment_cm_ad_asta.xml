@@ -9,35 +9,27 @@
         android:id="@+id/cm_asta_1"
         class="jp.maru.mrd.IconCell"
         android:layout_width="80dp"
-        android:layout_height="80dp"/>
+        android:layout_height="80dp"
+        />
 
     <view
         android:id="@+id/cm_asta_2"
         class="jp.maru.mrd.IconCell"
         android:layout_width="80dp"
-        android:layout_height="80dp"/>
+        android:layout_height="80dp"
+        />
 
     <view
         android:id="@+id/cm_asta_3"
         class="jp.maru.mrd.IconCell"
         android:layout_width="80dp"
-        android:layout_height="80dp"/>
+        android:layout_height="80dp"
+        />
 
     <view
         android:id="@+id/cm_asta_4"
         class="jp.maru.mrd.IconCell"
         android:layout_width="80dp"
-        android:layout_height="80dp"/>
-
-    <view
-        android:id="@+id/cm_asta_5"
-        class="jp.maru.mrd.IconCell"
-        android:layout_width="80dp"
-        android:layout_height="80dp"/>
-
-    <view
-        android:id="@+id/cm_asta_6"
-        class="jp.maru.mrd.IconCell"
-        android:layout_width="80dp"
-        android:layout_height="80dp"/>
+        android:layout_height="80dp"
+        />
 </LinearLayout>
