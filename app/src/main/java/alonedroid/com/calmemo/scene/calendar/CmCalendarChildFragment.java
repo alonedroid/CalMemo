@@ -155,6 +155,7 @@ public class CmCalendarChildFragment extends Fragment {
     }
 
     public void update(String date) throws ParseException {
+        this.photoList = this.accessor.getPhotosByDate(this.argDisplayYear, this.argDisplayMonth);
         CalendarUtility util = this.calendarUtility.newInstance(date);
         String day = util.getDD();
         int firstPosition = this.calendarUtility.getFirstDayOfWeek() - 1;
