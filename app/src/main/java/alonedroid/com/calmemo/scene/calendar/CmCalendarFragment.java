@@ -165,7 +165,8 @@ public class CmCalendarFragment extends Fragment {
             int absMonth = Math.abs(diffMonth);
             if (absMonth > 2) return;
 
-            int photoMonth = this.cmCalendarPager.getCurrentItem() + diffMonth;
+            int photoMonth = this.cmCalendarPager.getCurrentItem() - diffMonth;
+
             ((CmCalendarChildFragment_) this.adapter.instantiateItem(this.cmCalendarPager, photoMonth)).update(date);
         } catch (ParseException e) {
 

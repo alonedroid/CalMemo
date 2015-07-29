@@ -155,6 +155,8 @@ public class CmCalendarChildFragment extends Fragment {
     }
 
     public void update(String date) throws ParseException {
+        if (this.argDisplayYear == null || this.argDisplayMonth == null) return;
+
         this.photoList = this.accessor.getPhotosByDate(this.argDisplayYear, this.argDisplayMonth);
         CalendarUtility util = this.calendarUtility.newInstance(date);
         String day = util.getDD();
@@ -164,7 +166,6 @@ public class CmCalendarChildFragment extends Fragment {
         int col = viewPosition % this.displayCol;
         CmDateView view = ((CmDateView) findViewByIndex(row).getChildAt(col));
         view.setDateImage(getPhoto(date));
-//        view.setOnClickListener(this::onClickListener);
     }
 
     private int toInt(String str) {
